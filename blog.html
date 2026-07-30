@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — PFX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#C00022;
+    --red-dark:#A80F22;
+    --ink:#000000;
+    --gray:#888686;
+    --line:#E8EAED;
+    --panel:#EFF3F5;
+    --section-bg:#EAF0F2;
+    --white:#fff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    line-height:1.5;
+  }
+  a{text-decoration:none; color:inherit;}
+
+  /* NAV (shared identically across every page) */
+  header.nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16.8px 86.4px;
+    max-width:1440px; margin:0 auto;
+    position:sticky; top:0; z-index:100; background:var(--white);
+  }
+  .logo{font-size:34px; font-weight:800; letter-spacing:-0.5px;}
+  .logo span{color:var(--red);}
+  nav.links{display:flex; align-items:center; gap:19.2px; font-size:15px; font-weight:400;}
+  nav.links a.talk{
+    background:var(--red); color:#fff; padding:10px 20px; border-radius:12px; font-weight:400;
+  }
+
+  /* PAGE HEAD */
+  .page-head{max-width:1440px; margin:0 auto; padding:36px 86.4px 0;}
+  .eyebrow{color:var(--red); font-weight:700; font-size:14px; margin-bottom:8.4px;}
+  .page-head h1{font-size:44px; font-weight:800; letter-spacing:-0.5px; margin-bottom:10px;}
+  .page-head p{color:var(--gray); font-size:16px; max-width:640px;}
+
+  /* BLOG GRID */
+  section.blog-list{max-width:1440px; margin:36px auto 60px; padding:0 86.4px;}
+  .blog-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;}
+  .blog-card{
+    background:var(--panel); border-radius:12px; padding:22px;
+    scroll-margin-top:100px;
+    display:flex; flex-direction:column; height:100%;
+  }
+  .blog-card:target{ outline:2px solid var(--red); outline-offset:2px; }
+  .blog-date{font-size:12.5px; color:var(--gray); margin-bottom:8px; font-weight:600;}
+  .blog-card h3{font-size:19px; font-weight:800; margin-bottom:8px; line-height:1.3;}
+  .blog-card p{font-size:14.5px; color:var(--gray); margin-bottom:14px; flex:1;}
+  .blog-tags{display:flex; gap:6px; flex-wrap:wrap;}
+  .blog-tags .tag{
+    font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    background:#fff; color:var(--red); padding:4px 9px; border-radius:12px;
+  }
+
+  /* FOOTER (shared identically across every page) */
+  footer{
+    border-top:1px solid var(--line); margin-top:60px; padding:36px 57.6px 24px;
+  }
+  .footer-inner{
+    max-width:1440px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px;
+  }
+  .footer-inner .logo{margin-bottom:8.4px;}
+  .footer-inner .about{color:var(--gray); font-size:14.5px; max-width:340px; line-height:1.7;}
+  .footer-cols{display:flex; gap:48px;}
+  .footer-cols h4{font-size:15px; font-weight:700; margin-bottom:8.4px;}
+  .footer-cols a{display:block; color:var(--gray); font-size:14.5px; margin-bottom:6px;}
+  .socials{display:flex; gap:9.6px; margin-top:18px; max-width:1440px; margin-left:auto; margin-right:auto; padding:0 86.4px;}
+  .socials div{
+    width:34px; height:34px; border-radius:50%; border:1.5px solid #D8DADE;
+    display:flex; align-items:center; justify-content:center; font-size:13px; color:var(--gray);
+  }
+
+  @media (max-width: 900px){
+    .page-head, section.blog-list{padding-left:24px; padding-right:24px;}
+    .blog-grid{grid-template-columns:1fr;}
+    .footer-inner{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a href="index.html" class="logo">PF<span>X</span></a>
+  <nav class="links">
+    <a href="index.html#kiosks">Explore Kiosks</a>
+    <a href="index.html#case-study">Case Study</a>
+    <a href="roi_calculator.html">ROI Calculator</a>
+    <a href="blog.html">Blog</a>
+    <button type="button" class="search-btn" id="siteSearchBtn" aria-label="Search blog">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    </button>
+    <a href="contact.html" class="talk">Let's Talk!</a>
+  </nav>
+</header>
+
+<div class="page-head">
+  <div class="eyebrow">PFX Blog</div>
+  <h1>News, Case Studies &amp; Operator Resources</h1>
+  <p>Updates on automation, ROI, licensing, and what it's really like to run a PFX kiosk.</p>
+</div>
+
+<section class="blog-list">
+  <div class="blog-grid" id="blogGrid">
+    <!-- Cards are rendered from blog-data.js below so this page and the
+         nav search box always stay in sync with one source of truth. -->
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="logo">PFX</div>
+      <p class="about">The white-label pizza automation platform, powered by PizzaForno.<br>development@pizzaforno.com<br>pizzaforno.com</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h4>Explore PizzaForno</h4>
+        <a href="#">Locations</a>
+        <a href="blog.html">Blog</a>
+        <a href="#">About</a>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="contact.html">Contact</a>
+        <a href="#">Email</a>
+        <a href="#">Legal</a>
+      </div>
+    </div>
+  </div>
+  <div class="socials">
+    <div>IG</div>
+    <div>in</div>
+    <div>X</div>
+  </div>
+</footer>
+
+<script src="blog-data.js"></script>
+<script>
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+  function formatDate(iso){
+    const d = new Date(iso + "T00:00:00");
+    return d.toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" });
+  }
+  const grid = document.getElementById("blogGrid");
+  if (typeof PFX_BLOG_POSTS !== "undefined") {
+    grid.innerHTML = PFX_BLOG_POSTS.map(function(p){
+      return '<article class="blog-card" id="' + p.slug + '">' +
+        '<div class="blog-date">' + formatDate(p.date) + '</div>' +
+        '<h3>' + escapeHtml(p.title) + '</h3>' +
+        '<p>' + escapeHtml(p.excerpt) + '</p>' +
+        '<div class="blog-tags">' + p.tags.map(function(t){ return '<span class="tag">' + escapeHtml(t) + '</span>'; }).join('') + '</div>' +
+        '</article>';
+    }).join('');
+  }
+</script>
+<script src="site-search.js"></script>
+
+</body>
+</html>

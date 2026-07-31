@@ -51,8 +51,8 @@ footer{border-top:1px solid var(--border); margin-top:60px; padding:36px 57.6px 
 /* CALCULATOR */
 .calc-section{padding:56px 2.5rem;}
 .calc-inner{max-width:1160px;margin:0 auto;}
-.calc-inner h1{font-size:clamp(30px,4.5vw,48px); font-weight:800; letter-spacing:-0.5px; margin-bottom:10px;}
-.calc-inner .sub{font-size:15px;color:var(--muted);max-width:560px;margin-bottom:32px;font-weight:400;line-height:1.7;}
+.calc-inner h1{font-size:clamp(30px,4.5vw,48px); font-weight:800; letter-spacing:-0.5px; margin-bottom:10px; text-align:center;}
+.calc-inner .sub{font-size:15px;color:var(--muted);max-width:560px;margin:0 auto 32px;font-weight:400;line-height:1.7;text-align:center;}
 .calc-box{background:var(--white);border:1px solid var(--border2);border-radius:12px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,0.04);}
 .calc-header{background:var(--off2);padding:26px 36px;border-bottom:1px solid var(--border2);}
 .calc-header h3{font-size:26px; font-weight:800; color:var(--black); line-height:1; margin-bottom:4px;}
@@ -124,7 +124,7 @@ body.gate-locked{overflow:hidden;}
 }
 .gate-head{text-align:center;margin-bottom:28px;}
 .gate-head .eyebrow{color:var(--red);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
-.gate-head h1{font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-0.5px;margin-bottom:10px;}
+.gate-head h1{font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-0.5px;margin-bottom:5px;}
 .gate-head .sub{font-size:15px;color:var(--hint);font-weight:300;line-height:1.7;}
 .gate-form .form-section-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--hint);border-bottom:1px solid var(--border);padding-bottom:9px;margin:24px 0 18px;}
 .gate-form .form-section-title:first-child{margin-top:0;}
@@ -138,7 +138,7 @@ body.gate-locked{overflow:hidden;}
 }
 .gate-form input:focus, .gate-form select:focus{outline:2px solid var(--red);outline-offset:1px;}
 .hp-field{position:absolute;left:-9999px;top:-9999px;} /* honeypot — never visible to real visitors */
-.captcha-row{margin:22px 0 6px;}
+.captcha-row{margin:22px 0 6px; display:flex; justify-content:center;}
 .gate-error{
   display:none;background:var(--red-light);border:1px solid var(--red-border);color:var(--red);
   font-size:13px;border-radius:12px;padding:10px 12px;margin-bottom:14px;

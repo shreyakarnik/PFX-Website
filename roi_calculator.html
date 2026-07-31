@@ -110,14 +110,22 @@ footer{border-top:1px solid var(--border); margin-top:60px; padding:36px 57.6px 
 
 .disc{font-size:11px;color:var(--hint);line-height:1.7;border-top:1px solid var(--border);padding-top:22px;margin-top:28px;font-weight:300;max-width:1160px;margin-left:auto;margin-right:auto;padding-left:0;padding-right:0;}
 
-/* GATE — lead-capture form required before the calculator unlocks */
-.gate-section{padding:56px 2.5rem;}
-.gate-inner{max-width:640px;margin:0 auto;}
-.gate-head{text-align:center;margin-bottom:32px;}
+/* GATE — lead-capture modal shown over a dimmed, non-interactive calculator until the form is submitted */
+.gate-overlay{
+  position:fixed; inset:0; z-index:500;
+  background:rgba(0,0,0,0.62);
+  display:flex; align-items:center; justify-content:center;
+  padding:40px 20px; overflow-y:auto;
+}
+body.gate-locked{overflow:hidden;}
+.gate-modal{
+  background:var(--white); border-radius:12px; width:100%; max-width:640px;
+  padding:36px; box-shadow:0 24px 70px rgba(0,0,0,0.35); margin:auto;
+}
+.gate-head{text-align:center;margin-bottom:28px;}
 .gate-head .eyebrow{color:var(--red);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
-.gate-head h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-0.5px;margin-bottom:10px;}
+.gate-head h1{font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-0.5px;margin-bottom:10px;}
 .gate-head .sub{font-size:15px;color:var(--hint);font-weight:300;line-height:1.7;}
-.gate-form{background:var(--white);border:1px solid var(--border2);border-radius:12px;padding:32px;box-shadow:0 2px 20px rgba(0,0,0,0.04);}
 .gate-form .form-section-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--hint);border-bottom:1px solid var(--border);padding-bottom:9px;margin:24px 0 18px;}
 .gate-form .form-section-title:first-child{margin-top:0;}
 .gate-form .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
@@ -149,8 +157,8 @@ footer{border-top:1px solid var(--border); margin-top:60px; padding:36px 57.6px 
   .calc-cols{grid-template-columns:1fr;}
   .calc-left{border-right:none;border-bottom:1px solid var(--border2);}
   .calc-header,.calc-left,.calc-right{padding:24px;}
-  .gate-section{padding:40px 1.25rem;}
-  .gate-form{padding:22px;}
+  .gate-overlay{padding:16px;}
+  .gate-modal{padding:22px;}
   .gate-form .form-row{grid-template-columns:1fr;}
 }
 </style>
@@ -171,8 +179,8 @@ footer{border-top:1px solid var(--border); margin-top:60px; padding:36px 57.6px 
   </nav>
 </header>
 
-<section class="gate-section" id="gateSection">
-  <div class="gate-inner">
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-modal">
     <div class="gate-head">
       <div class="eyebrow">Free ROI Calculator</div>
       <h1>See Your Projected Earnings</h1>
@@ -231,9 +239,9 @@ footer{border-top:1px solid var(--border); margin-top:60px; padding:36px 57.6px 
       <button type="submit" class="btn-primary" id="gateSubmitBtn">Unlock Calculator</button>
     </form>
   </div>
-</section>
+</div>
 
-<div id="calcContent" style="display:none;">
+<div id="calcContent" aria-hidden="true">
 <section class="calc-section">
   <div class="calc-inner">
     <h1>ROI Calculator</h1>
@@ -533,7 +541,7 @@ calc();
 
 <script>
   /* =========================================================
-     ROI CALCULATOR GATE — lead-capture form + reCAPTCHA
+     ROI CALCULATOR GATE — lead-capture modal + reCAPTCHA
      -------------------------------------------------------
      1. Get a free reCAPTCHA v2 ("I'm not a robot") Site Key at
         google.com/recaptcha/admin and paste it into the
@@ -554,6 +562,12 @@ calc();
      4. Access is remembered per-browser (localStorage) so a
         visitor who already submitted isn't asked again — clear
         "pfx_roi_unlocked" in dev tools to test the gate again.
+     5. The calculator is always rendered on the page — while the
+        gate is up, a dark overlay dims it and the lead form floats
+        on top as a modal card, so visitors can see the calculator
+        in the background but can't interact with it (the overlay
+        blocks clicks, and the page can't be scrolled) until they
+        submit the form.
      ========================================================= */
   var GATE_HUBSPOT_PORTAL_ID = "YOUR_PORTAL_ID";
   var GATE_HUBSPOT_FORM_GUID = "YOUR_FORM_GUID";
@@ -561,12 +575,15 @@ calc();
   document.addEventListener('DOMContentLoaded', function(){
     if (localStorage.getItem('pfx_roi_unlocked') === 'true') {
       unlockCalculator();
+    } else {
+      document.body.classList.add('gate-locked');
     }
   });
 
   function unlockCalculator(){
-    document.getElementById('gateSection').style.display = 'none';
-    document.getElementById('calcContent').style.display = '';
+    document.getElementById('gateOverlay').style.display = 'none';
+    document.body.classList.remove('gate-locked');
+    document.getElementById('calcContent').setAttribute('aria-hidden', 'false');
   }
 
   function submitGateForm(event){

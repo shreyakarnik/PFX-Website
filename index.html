@@ -45,11 +45,11 @@
 
   /* HERO */
   .hero{
-    display:flex; gap:24px;
+    display:flex; gap:10px;
     width:100%; margin:19.2px 0 36px 0;
     align-items:center;
   }
-  .hero-content{flex:0 1 620px; min-width:0; padding-left:76.2px;} /* was 95.2px — moved 20% left */
+  .hero-content{flex:0 1 620px; min-width:0; padding-left:103px;} /* was 76.2px — moved ~35% further right */
   .hero h1{
     font-size:52px; font-weight:800; line-height:1.08; letter-spacing:-1px;
   }
@@ -73,9 +73,18 @@
   .hero-slider{
     width:100%; overflow:hidden;
     position:relative;
-    padding-top:48%; /* was 34% — taller hero image/video area */
+    height:75vh; min-height:460px; max-height:840px; /* covers ~3/4 of the page so the next section isn't visible without scrolling */
     background:var(--white);
   }
+  .hero-arrow{
+    position:absolute; top:50%; right:16px; transform:translateY(-50%);
+    width:44px; height:44px; border-radius:50%; border:none;
+    background:rgba(255,255,255,0.92); color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; z-index:3; box-shadow:0 2px 12px rgba(0,0,0,0.18);
+    transition:background .2s ease, color .2s ease;
+  }
+  .hero-arrow:hover{background:#fff; color:var(--red);}
   .hero-slide{
     position:absolute; inset:0;
     opacity:0; pointer-events:none;
@@ -136,8 +145,7 @@
   .card{
     background:var(--panel); border-radius:12px; padding:14.4px;
   }
-  .card .icon{width:28px; height:28px; object-fit:contain; margin-bottom:8.4px; display:block;}
-  .card .icon.icon-wide{width:81px; height:18px;}
+  .card .icon{width:28px; height:28px; margin-bottom:8.4px; display:block; color:var(--red);}
   .card h3{font-size:16px; font-weight:700; margin-bottom:4.8px;}
   .card p{font-size:14px; color:var(--gray);}
 
@@ -246,6 +254,7 @@
   @media (max-width: 900px){
     .hero-content{padding-left:24px; padding-right:24px;}
     .hero{flex-direction:column;}
+    .hero-slider{height:50vh; min-height:320px;}
     .card-grid{grid-template-columns:repeat(2,1fr);}
     .kiosk-grid{grid-template-columns:1fr;}
     .footer-inner{flex-direction:column;}
@@ -313,6 +322,9 @@
           Your browser does not support video.
         </video>
       </div>
+      <button type="button" class="hero-arrow" id="heroNextBtn" aria-label="Show next kiosk view">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>
+      </button>
     </div>
     <div class="hero-dots" id="heroDots">
       <button type="button" data-slide="indoor" aria-label="Show Indoor Kiosk"></button>
@@ -335,22 +347,22 @@
   <p class="sub">Unlike franchise programs, you own the equipment and keep full control.</p>
   <div class="card-grid">
     <div class="card">
-      <img src="icon_recipe.png" alt="Recipe icon" class="icon">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5V4.5Z"></path><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><line x1="8" y1="7.2" x2="15" y2="7.2"></line><line x1="8" y1="10.6" x2="13" y2="10.6"></line></svg>
       <h3>Your Recipes &amp; Ingredients</h3>
       <p>Your dough, sauce, cheese, toppings, completely made by you.</p>
     </div>
     <div class="card">
-      <img src="icon_branding.png" alt="Branding icon" class="icon">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
       <h3>Your Branding</h3>
       <p>Full custom wrap with your colors, logo, and messaging.</p>
     </div>
     <div class="card">
-      <img src="icon_pricing.png" alt="Pricing icon" class="icon">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41 12.59 21.41a2 2 0 0 1-2.83 0L2.59 14.24a2 2 0 0 1 0-2.83L10.59 3.4A2 2 0 0 1 12 2.8H20a1 1 0 0 1 1 1v7.83a2 2 0 0 1-.41 1.58Z"></path><line x1="7.5" y1="7.5" x2="7.51" y2="7.5"></line></svg>
       <h3>Your Pricing &amp; Menu</h3>
       <p>Set prices, run seasonal specials, update remotely.</p>
     </div>
     <div class="card">
-      <img src="icon_operations.png" alt="Operations icon" class="icon">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
       <h3>Your Operations</h3>
       <p>You prep, stock, and manage on your schedule no third party.</p>
     </div>
@@ -363,22 +375,22 @@
   <p class="sub">As well as Regional Chains, Franchisors, and even Convenience Stores</p>
   <div class="card-grid">
     <div class="card">
-      <img src="icon_franchise_fees.png" alt="Franchise fees icon" class="icon">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1.5" x2="12" y2="22.5"></line><path d="M17 5.2H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6.5"></path><line x1="4" y1="20" x2="20" y2="4"></line></svg>
       <h3>No Franchise Fees</h3>
       <p>Buy the equipment, keep the profits.</p>
     </div>
     <div class="card">
-      <img src="icon_brand.png" alt="Brand icon" class="icon">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6.5"></circle><polyline points="8.1 13.8 6.9 22 12 19 17.1 22 15.9 13.8"></polyline></svg>
       <h3>Your Brand, Your Profits</h3>
       <p>100% Customisation to match your brand.</p>
     </div>
     <div class="card">
-      <img src="icon_integrity.png" alt="Product integrity icon" class="icon">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 20 5.5v6.4c0 5.4-3.4 8.7-8 9.6-4.6-.9-8-4.2-8-9.6V5.5Z"></path><polyline points="8.5 12 10.8 14.3 15.5 9.6"></polyline></svg>
       <h3>Product Integrity</h3>
       <p>Your ingredients, your standards.</p>
     </div>
     <div class="card">
-      <img src="icon_commercial_grade.png" alt="Commercial grade icon" class="icon icon-wide">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.89 1.45 20.9 5.4A2 2 0 0 1 22 7.2v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.79 0l-8-4a2 2 0 0 1-1.1-1.8V7.2a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0Z"></path><polyline points="2.32 6.16 12 11 21.68 6.16"></polyline><line x1="12" y1="22.76" x2="12" y2="11"></line></svg>
       <h3>Commercial Grade</h3>
       <p>NAMA &amp; UL Certified, built to last.</p>
     </div>
@@ -416,22 +428,22 @@
   <p class="sub">As well as Regional Chains, Franchisors, and even Convenience Stores</p>
   <div class="card-grid">
     <div class="card">
-      <img src="icon_turnkey.png" alt="Turnkey services icon" class="icon">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.2"></circle><line x1="10.5" y1="12.3" x2="19" y2="3.8"></line><line x1="15" y1="8" x2="18" y2="5"></line><line x1="17.2" y1="6.3" x2="20.2" y2="3.3"></line></svg>
       <h3>Turnkey Services</h3>
       <p>Turnkey install + training, extended service plans, unit customization.</p>
     </div>
     <div class="card">
-      <img src="icon_technical.png" alt="Technical support icon" class="icon">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3ZM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"></path></svg>
       <h3>Technical Support</h3>
       <p>24/7 helpline and remote monitoring.</p>
     </div>
     <div class="card">
-      <img src="icon_warranty.png" alt="Equipment warranty icon" class="icon">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 20 5.5v6.4c0 5.4-3.4 8.7-8 9.6-4.6-.9-8-4.2-8-9.6V5.5Z"></path></svg>
       <h3>Equipment Warranty</h3>
       <p>1 year parts &amp; labor.</p>
     </div>
     <div class="card">
-      <img src="icon_software.png" alt="Software and updates icon" class="icon">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
       <h3>Software &amp; Updates</h3>
       <p>Cloud-based management, remote updates, and insights.</p>
     </div>
@@ -629,6 +641,18 @@
   document.querySelectorAll('#heroDots button').forEach(function(dot){
     dot.addEventListener('click', function(){ setHeroSlide(dot.getAttribute('data-slide')); });
   });
+
+  // Right-side arrow button — advances Indoor → ATM → Outdoor → Indoor...
+  var heroSlideOrder = ['indoor', 'atm', 'outdoor'];
+  var heroNextBtn = document.getElementById('heroNextBtn');
+  if(heroNextBtn){
+    heroNextBtn.addEventListener('click', function(){
+      var activeSlide = document.querySelector('.hero-slide.active');
+      var current = activeSlide ? activeSlide.getAttribute('data-slide') : 'outdoor';
+      var nextIndex = (heroSlideOrder.indexOf(current) + 1) % heroSlideOrder.length;
+      setHeroSlide(heroSlideOrder[nextIndex]);
+    });
+  }
 
   function toggleMoreInfo(btn){
     var panel = document.getElementById('moreInfoPanel');

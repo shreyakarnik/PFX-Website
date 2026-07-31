@@ -94,8 +94,36 @@
   .image-actions button:hover{background:#fff;}
   .preview-title{font-size:32px; font-weight:800; letter-spacing:-0.5px; margin-bottom:16px; line-height:1.2;}
   .preview-title:empty:before{content:"Your post title will appear here"; color:#bbb;}
+
+  /* RICH TEXT TOOLBAR */
+  .editor-toolbar{
+    display:flex; align-items:center; gap:4px; flex-wrap:wrap;
+    border:1.5px solid #D8DADE; border-radius:12px; padding:6px; margin-bottom:14px;
+  }
+  .toolbar-select{
+    border:1.5px solid #D8DADE; border-radius:12px; padding:7px 10px; font-size:13px;
+    font-family:inherit; color:var(--ink); background:#fff; cursor:pointer;
+  }
+  .toolbar-select:focus{outline:2px solid var(--red); outline-offset:1px;}
+  .toolbar-divider{width:1px; height:22px; background:var(--line); margin:0 4px;}
+  .toolbar-btn{
+    width:34px; height:34px; border-radius:12px; border:1.5px solid transparent;
+    background:none; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:14px; color:var(--ink); line-height:1;
+  }
+  .toolbar-btn:hover{background:var(--panel);}
+  .toolbar-btn.active{border-color:var(--red); color:var(--red); background:rgba(192,0,34,0.06);}
+
   .preview-body{font-size:16px; color:#222; line-height:1.8; outline:none;}
   .preview-body p{margin-bottom:16px;}
+  .preview-body h1{font-size:32px; font-weight:800; line-height:1.25; margin:22px 0 12px;}
+  .preview-body h2{font-size:27px; font-weight:800; line-height:1.3; margin:20px 0 12px;}
+  .preview-body h3{font-size:23px; font-weight:700; line-height:1.32; margin:18px 0 10px;}
+  .preview-body h4{font-size:20px; font-weight:700; line-height:1.35; margin:16px 0 10px;}
+  .preview-body h5{font-size:18px; font-weight:700; line-height:1.4; margin:14px 0 8px;}
+  .preview-body h6{font-size:15px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; line-height:1.4; margin:14px 0 8px;}
+  .preview-body a{color:var(--red); text-decoration:underline;}
+  .preview-body img{max-width:100%; border-radius:12px; margin:14px 0; display:block;}
   .preview-body:empty:before{content:"Click here and start writing your post..."; color:#bbb;}
 
   /* RIGHT — form panel */
@@ -198,7 +226,7 @@
 </header>
 
 <div class="admin-bar">
-  <span>Logged in as <strong id="whoAmI">poweredbypfx</strong> · Draft posts are saved in this browser only until Supabase publishing is connected.</span>
+  <span>Logged in as <strong id="whoAmI">poweredbypfx</strong></span>
   <a href="#" id="logoutLink">Log out</a>
 </div>
 
@@ -219,6 +247,32 @@
       <input type="file" id="imageInput" accept="image/*" style="display:none;">
 
       <div class="preview-title" id="previewTitle"></div>
+
+      <div class="editor-toolbar" id="editorToolbar">
+        <select id="formatSelect" class="toolbar-select" title="Text style">
+          <option value="P">Paragraph</option>
+          <option value="H1">Heading 1</option>
+          <option value="H2">Heading 2</option>
+          <option value="H3">Heading 3</option>
+          <option value="H4">Heading 4</option>
+          <option value="H5">Heading 5</option>
+          <option value="H6">Heading 6</option>
+        </select>
+        <span class="toolbar-divider"></span>
+        <button type="button" class="toolbar-btn" data-cmd="bold" title="Bold"><b>B</b></button>
+        <button type="button" class="toolbar-btn" data-cmd="italic" title="Italic"><i>I</i></button>
+        <button type="button" class="toolbar-btn" data-cmd="underline" title="Underline"><u>U</u></button>
+        <button type="button" class="toolbar-btn" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+        <span class="toolbar-divider"></span>
+        <button type="button" class="toolbar-btn" id="linkBtn" title="Insert link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        </button>
+        <button type="button" class="toolbar-btn" id="imageBtnBody" title="Insert image">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        </button>
+        <input type="file" id="bodyImageInput" accept="image/*" style="display:none;">
+      </div>
+
       <div class="preview-body" id="previewBody" contenteditable="true"></div>
     </div>
 
@@ -431,6 +485,66 @@
       imageBlock.classList.add('has-image');
     };
     reader.readAsDataURL(file);
+  });
+
+  // ---- rich text toolbar for the post body ----
+  var previewBody = document.getElementById('previewBody');
+  var formatSelect = document.getElementById('formatSelect');
+
+  document.querySelectorAll('.toolbar-btn[data-cmd]').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      previewBody.focus();
+      document.execCommand(btn.dataset.cmd, false, null);
+    });
+  });
+
+  formatSelect.addEventListener('change', function(){
+    previewBody.focus();
+    document.execCommand('formatBlock', false, formatSelect.value);
+  });
+
+  document.getElementById('linkBtn').addEventListener('click', function(e){
+    e.preventDefault();
+    var selection = window.getSelection();
+    if(!selection || selection.toString().length === 0){
+      window.alert('First highlight the text you want to turn into a link, then click the link button.');
+      return;
+    }
+    var url = window.prompt('Enter the URL this text should link to:', 'https://');
+    if(url){
+      previewBody.focus();
+      document.execCommand('createLink', false, url);
+    }
+  });
+
+  var bodyImageInput = document.getElementById('bodyImageInput');
+  document.getElementById('imageBtnBody').addEventListener('click', function(e){
+    e.preventDefault();
+    bodyImageInput.click();
+  });
+  bodyImageInput.addEventListener('change', function(){
+    var file = bodyImageInput.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      previewBody.focus();
+      document.execCommand('insertImage', false, ev.target.result);
+      bodyImageInput.value = '';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Keep the toolbar in sync with whatever the cursor is currently inside
+  document.addEventListener('selectionchange', function(){
+    if(document.activeElement !== previewBody) return;
+    try{
+      var block = document.queryCommandValue('formatBlock').toUpperCase();
+      formatSelect.value = (['H1','H2','H3','H4','H5','H6'].indexOf(block) !== -1) ? block : 'P';
+      document.querySelectorAll('.toolbar-btn[data-cmd]').forEach(function(btn){
+        btn.classList.toggle('active', document.queryCommandState(btn.dataset.cmd));
+      });
+    } catch(e){}
   });
 
   // ---- drafts (localStorage placeholder until Supabase) ----

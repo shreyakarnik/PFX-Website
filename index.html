@@ -62,7 +62,7 @@
   .hero-content{
     position:relative; z-index:5;
     max-width:500px; flex-shrink:0; padding:0;
-    transform:translateX(35%); /* shifted right 35% of its own width — transform doesn't affect flex flow, so the hero visual's box stays exactly where it was */
+    transform:translateX(15%); /* moved 20% left from the previous 35% shift, net 15% right of its original position */
   }
   /* White gradient behind the shifted text so it stays readable over the image where the two now overlap */
   .hero-content::before{
@@ -171,7 +171,7 @@
     display:grid; grid-template-columns:repeat(4, 1fr); gap:12px;
   }
   .card{
-    background:var(--panel); border-radius:12px; padding:14.4px 18px 14.4px 24.3px; /* left padding increased 35% (18px -> 24.3px) */
+    background:var(--panel); border-radius:12px; padding:19.4px 24.3px 19.4px 32.8px; /* all sides increased 35% from previous padding */
   }
   .card .icon{width:18.2px; height:18.2px; margin-bottom:10.5px; display:block; color:#333333;} /* icon size reduced 35% (28px -> 18.2px) */
   .card h3{font-size:16px; font-weight:700; margin-bottom:4.8px;}

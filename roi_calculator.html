@@ -119,19 +119,27 @@ footer{border-top:1px solid var(--border); margin-top:60px; padding:36px 57.6px 
 }
 body.gate-locked{overflow:hidden;}
 .gate-modal{
+  position:relative;
   background:var(--white); border-radius:12px; width:100%; max-width:640px;
   padding:36px; box-shadow:0 24px 70px rgba(0,0,0,0.35); margin:auto;
 }
+.gate-skip{
+  position:absolute; top:16px; right:16px;
+  font-size:12.5px; font-weight:400; color:var(--hint);
+  background:none; border:none; cursor:pointer; padding:6px 8px; border-radius:12px;
+  text-decoration:none;
+}
+.gate-skip:hover{color:var(--black); background:var(--off2);}
 .gate-head{text-align:center;margin-bottom:28px;}
 .gate-head .eyebrow{color:var(--red);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
 .gate-head h1{font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-0.5px;margin-bottom:5px;}
 .gate-head .sub{font-size:15px;color:var(--hint);font-weight:300;line-height:1.7;}
-.gate-form .form-section-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--hint);border-bottom:1px solid var(--border);padding-bottom:9px;margin:24px 0 18px;}
+.gate-form .form-section-title{font-size:11px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);border-bottom:1px solid var(--border);padding-bottom:9px;margin:24px 0 18px;}
 .gate-form .form-section-title:first-child{margin-top:0;}
 .gate-form .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
 .gate-form .form-row.single{grid-template-columns:1fr;}
 .gate-form .form-group{display:flex;flex-direction:column;gap:6px;}
-.gate-form .form-group label{font-size:12.5px;font-weight:700;color:var(--muted);}
+.gate-form .form-group label{font-size:12.5px;font-weight:400;color:var(--muted);}
 .gate-form input[type="text"], .gate-form input[type="tel"], .gate-form input[type="email"], .gate-form select{
   border:1px solid var(--border);border-radius:12px;padding:11px 14px;font-size:14px;
   font-family:inherit;color:var(--black);background:var(--white);
@@ -181,6 +189,7 @@ body.gate-locked{overflow:hidden;}
 
 <div class="gate-overlay" id="gateOverlay">
   <div class="gate-modal">
+    <a href="index.html" class="gate-skip" aria-label="Skip and return to the homepage">Skip →</a>
     <div class="gate-head">
       <div class="eyebrow">Free ROI Calculator</div>
       <h1>See Your Projected Earnings</h1>

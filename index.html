@@ -50,6 +50,7 @@
     align-items:center;
   }
   .hero-content{flex:0 1 620px; min-width:0; padding-left:134px;} /* was 103px — moved ~30% further right */
+  .hero-text-block{transform:translateY(-50%);} /* moves the heading/stat/paragraph up while the buttons below stay put in normal flow */
   .hero h1{
     font-size:52px; font-weight:800; line-height:1.08; letter-spacing:-1px;
   }
@@ -135,7 +136,7 @@
   /* SECTIONS */
   section.feature{max-width:1440px; margin:48px auto; padding:0 86.4px;}
   section.feature .eyebrow{margin-bottom:6px;}
-  section.feature h2{font-size:34px; font-weight:800; letter-spacing:-0.5px; margin-bottom:6px;}
+  section.feature h2{font-size:34px; font-weight:800; letter-spacing:-0.5px; margin-bottom:3.6px;} /* was 6px — 40% less space before the sub paragraph */
   section.feature > p.sub{color:var(--gray); font-size:16px; margin-bottom:21.6px; max-width:700px;}
 
   .card-grid{
@@ -190,7 +191,7 @@
   }
   .inquiry-inner{max-width:1440px; margin:0 auto;}
   .inquiry-head{text-align:center; max-width:640px; margin:0 auto 28.8px;}
-  .inquiry-head h2{font-size:34px; font-weight:800; letter-spacing:-0.5px; margin-bottom:8.4px;}
+  .inquiry-head h2{font-size:34px; font-weight:800; letter-spacing:-0.5px; margin-bottom:5px;} /* was 8.4px — 40% less space before the sub paragraph */
   .inquiry-head p{color:var(--gray); font-size:16px;}
 
   form.inquiry-form{
@@ -198,8 +199,8 @@
     box-shadow:0 2px 20px rgba(0,0,0,0.05);
   }
   .form-section-title{
-    font-size:13px; font-weight:800; letter-spacing:0.06em; text-transform:uppercase;
-    color:var(--red); margin:21.6px 0 10.8px;
+    font-size:13px; font-weight:400; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--gray); margin:21.6px 0 10.8px;
   }
   .form-section-title:first-of-type{margin-top:0;}
   .form-row{
@@ -207,7 +208,7 @@
   }
   .form-row.single{grid-template-columns:1fr;}
   .form-group{display:flex; flex-direction:column; gap:3.6px;}
-  .form-group label{font-size:14px; font-weight:700;}
+  .form-group label{font-size:14px; font-weight:400;}
   .form-group .hint{font-size:12.5px; color:var(--gray); font-weight:400;}
   .form-group input[type="text"],
   .form-group input[type="email"],
@@ -279,9 +280,11 @@
 
 <section class="hero">
   <div class="hero-content">
-    <h1>Your Pizzeria,<br><span class="red">Now Automated.</span></h1>
-    <div class="hero-stat">10K+ Pizzas Served in Under a Year</div>
-    <p>PFX gives independent operators, regional chains, and franchisors a white-label pizza vending platform, your recipes, your brand, your pricing, 24/7.</p>
+    <div class="hero-text-block">
+      <h1>Your Pizzeria,<br><span class="red">Now Automated.</span></h1>
+      <div class="hero-stat">10K+ Pizzas Served in Under a Year</div>
+      <p>PFX gives independent operators, regional chains, and franchisors a white-label pizza vending platform, your recipes, your brand, your pricing, 24/7.</p>
+    </div>
     <div class="hero-ctas">
       <a href="contact.html" class="btn-primary">Talk to Our Team</a>
       <a href="#kiosks" class="btn-secondary">Explore Kiosks</a>

@@ -55,13 +55,14 @@
     position:relative;
     width:100%; overflow:hidden; margin:0;
     background:var(--white);
-    display:flex; align-items:center; justify-content:space-between; gap:40px;
-    min-height:600px; /* reverted back from the 35% bump (810px -> 600px) */
+    display:flex; align-items:flex-start; justify-content:space-between; gap:40px;
+    min-height:776.4px; /* visual box itself grows 35% (504px -> 680.4px); 96px accounts for the fixed top/bottom padding */
     padding:48px 86.4px 48px 134px; /* contained layout — text and visual sit inside normal page padding, image no longer bleeds to the screen edges */
   }
   .hero-content{
     position:relative; z-index:5;
     max-width:500px; flex-shrink:0; padding:0;
+    margin-top:55.3px; /* fixed anchor point (was vertically centered at the old 600px height) — pinned here so growing the visual never moves the text */
     transform:translateX(15%); /* moved 20% left from the previous 35% shift, net 15% right of its original position */
   }
   /* White gradient behind the shifted text so it stays readable over the image where the two now overlap */
@@ -281,7 +282,7 @@
   }
   @media (max-width: 900px){
     .hero{flex-direction:column; padding:32px 24px; min-height:0;}
-    .hero-content{max-width:100%; transform:none;}
+    .hero-content{max-width:100%; transform:none; margin-top:0;}
     .hero-content::before{content:none;}
     .hero-media-wrap{width:100%; align-self:stretch; aspect-ratio:4/3; margin-top:24px;}
     .card-grid{grid-template-columns:repeat(2,1fr);}

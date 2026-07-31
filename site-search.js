@@ -20,10 +20,10 @@
     .search-btn{
       display:flex; align-items:center; justify-content:center;
       width:42px; height:42px; flex-shrink:0;
-      background:#fff; border:1.5px solid #D8DADE; border-radius:12px;
+      background:none; border:none;
       color:#000; cursor:pointer; padding:0;
     }
-    .search-btn:hover{ border-color:#C00022; color:#C00022; }
+    .search-btn:hover{ color:#C00022; }
     .search-overlay{
       position:fixed; inset:0; background:rgba(0,0,0,0.5);
       display:none; align-items:flex-start; justify-content:center;

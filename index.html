@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="analytics.js"></script>
 <title>PFX — Your Pizzeria, Now Automated</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,8 +54,11 @@
     font-size:52px; font-weight:800; line-height:1.08; letter-spacing:-1px;
   }
   .hero h1 .red{color:var(--red);}
+  .hero-stat{
+    margin-top:14px; font-size:19px; font-weight:800; color:var(--ink);
+  }
   .hero p{
-    margin-top:12px; font-size:17px; color:var(--gray); max-width:460px;
+    margin-top:10px; font-size:17px; color:var(--gray); max-width:460px;
   }
   .hero-ctas{display:flex; gap:8.4px; margin-top:16.8px;}
   .btn-primary{
@@ -268,6 +272,7 @@
 <section class="hero">
   <div class="hero-content">
     <h1>Your Pizzeria,<br><span class="red">Now Automated.</span></h1>
+    <div class="hero-stat">10K+ Pizzas Served in Under a Year</div>
     <p>PFX gives independent operators, regional chains, and franchisors a white-label pizza vending platform, your recipes, your brand, your pricing, 24/7.</p>
     <div class="hero-ctas">
       <a href="contact.html" class="btn-primary">Talk to Our Team</a>

@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="analytics.js"></script>
 <title>ROI Calculator — PFX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -108,12 +110,48 @@ footer{border-top:1px solid var(--border); margin-top:60px; padding:36px 57.6px 
 
 .disc{font-size:11px;color:var(--hint);line-height:1.7;border-top:1px solid var(--border);padding-top:22px;margin-top:28px;font-weight:300;max-width:1160px;margin-left:auto;margin-right:auto;padding-left:0;padding-right:0;}
 
+/* GATE — lead-capture form required before the calculator unlocks */
+.gate-section{padding:56px 2.5rem;}
+.gate-inner{max-width:640px;margin:0 auto;}
+.gate-head{text-align:center;margin-bottom:32px;}
+.gate-head .eyebrow{color:var(--red);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+.gate-head h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-0.5px;margin-bottom:10px;}
+.gate-head .sub{font-size:15px;color:var(--hint);font-weight:300;line-height:1.7;}
+.gate-form{background:var(--white);border:1px solid var(--border2);border-radius:12px;padding:32px;box-shadow:0 2px 20px rgba(0,0,0,0.04);}
+.gate-form .form-section-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--hint);border-bottom:1px solid var(--border);padding-bottom:9px;margin:24px 0 18px;}
+.gate-form .form-section-title:first-child{margin-top:0;}
+.gate-form .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.gate-form .form-row.single{grid-template-columns:1fr;}
+.gate-form .form-group{display:flex;flex-direction:column;gap:6px;}
+.gate-form .form-group label{font-size:12.5px;font-weight:700;color:var(--muted);}
+.gate-form input[type="text"], .gate-form input[type="tel"], .gate-form input[type="email"], .gate-form select{
+  border:1px solid var(--border);border-radius:12px;padding:11px 14px;font-size:14px;
+  font-family:inherit;color:var(--black);background:var(--white);
+}
+.gate-form input:focus, .gate-form select:focus{outline:2px solid var(--red);outline-offset:1px;}
+.hp-field{position:absolute;left:-9999px;top:-9999px;} /* honeypot — never visible to real visitors */
+.captcha-row{margin:22px 0 6px;}
+.gate-error{
+  display:none;background:var(--red-light);border:1px solid var(--red-border);color:var(--red);
+  font-size:13px;border-radius:12px;padding:10px 12px;margin-bottom:14px;
+}
+.gate-error.show{display:block;}
+.gate-form .btn-primary{
+  width:100%;background:var(--red);color:#fff;border:none;border-radius:12px;
+  padding:14px 24px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;font-family:inherit;
+}
+.gate-form .btn-primary:hover{background:var(--red-dark);}
+.gate-form .btn-primary:disabled{opacity:.6;cursor:default;}
+
 @media(max-width:820px){
   header.nav{padding:16.8px 1.25rem;}
   .calc-section{padding:40px 1.25rem;}
   .calc-cols{grid-template-columns:1fr;}
   .calc-left{border-right:none;border-bottom:1px solid var(--border2);}
   .calc-header,.calc-left,.calc-right{padding:24px;}
+  .gate-section{padding:40px 1.25rem;}
+  .gate-form{padding:22px;}
+  .gate-form .form-row{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -133,6 +171,69 @@ footer{border-top:1px solid var(--border); margin-top:60px; padding:36px 57.6px 
   </nav>
 </header>
 
+<section class="gate-section" id="gateSection">
+  <div class="gate-inner">
+    <div class="gate-head">
+      <div class="eyebrow">Free ROI Calculator</div>
+      <h1>See Your Projected Earnings</h1>
+      <p class="sub">Enter your details below to unlock the interactive PFX licensee ROI calculator.</p>
+    </div>
+
+    <div class="gate-error" id="gateError">Please complete the CAPTCHA to continue.</div>
+
+    <form class="gate-form" id="gateForm" onsubmit="return submitGateForm(event);">
+      <div class="form-section-title">Your Information</div>
+      <div class="form-row">
+        <div class="form-group"><label>First Name*</label><input type="text" name="firstname" required></div>
+        <div class="form-group"><label>Last Name*</label><input type="text" name="lastname" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Phone*</label><input type="tel" name="phone" required></div>
+        <div class="form-group"><label>Email*</label><input type="email" name="email" required></div>
+      </div>
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Country*</label>
+          <select name="country" required>
+            <option value="">Please Select</option>
+            <option>Canada</option>
+            <option>United States</option>
+            <option>Mexico/Costa Rica</option>
+            <option>Outside of North America</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section-title">Optional Details</div>
+      <div class="form-row single">
+        <div class="form-group"><label>Company Name</label><input type="text" name="company"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Location</label><input type="text" name="location"></div>
+        <div class="form-group"><label>Pincode</label><input type="text" name="pincode"></div>
+      </div>
+
+      <!-- Honeypot: invisible to real visitors, but simple bots often fill every field they see -->
+      <div class="hp-field" aria-hidden="true">
+        <label for="website">Leave this field blank</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="captcha-row">
+        <!--
+          Get a free Site Key at google.com/recaptcha/admin (choose reCAPTCHA v2,
+          "I'm not a robot" checkbox, and add your site's domain). Paste it below
+          in place of YOUR_RECAPTCHA_SITE_KEY.
+        -->
+        <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+      </div>
+
+      <button type="submit" class="btn-primary" id="gateSubmitBtn">Unlock Calculator</button>
+    </form>
+  </div>
+</section>
+
+<div id="calcContent" style="display:none;">
 <section class="calc-section">
   <div class="calc-inner">
     <h1>ROI Calculator</h1>
@@ -285,6 +386,7 @@ footer{border-top:1px solid var(--border); margin-top:60px; padding:36px 57.6px 
     </div>
   </div>
 </section>
+</div>
 
 <footer>
   <div class="footer-inner">
@@ -427,6 +529,124 @@ function calc(){
   ne.style.color=earn>=0?'var(--green)':'var(--red)';
 }
 calc();
+</script>
+
+<script>
+  /* =========================================================
+     ROI CALCULATOR GATE — lead-capture form + reCAPTCHA
+     -------------------------------------------------------
+     1. Get a free reCAPTCHA v2 ("I'm not a robot") Site Key at
+        google.com/recaptcha/admin and paste it into the
+        data-sitekey attribute above, replacing YOUR_RECAPTCHA_SITE_KEY.
+     2. In HubSpot, create a form matching the fields below
+        (or reuse an existing one) and replace GATE_PORTAL_ID /
+        GATE_FORM_GUID below with your portal ID + form GUID,
+        same as the Let's Talk form on index.html / contact.html.
+     3. Note: this reCAPTCHA check only confirms the widget was
+        completed in the browser — without a backend there's no
+        way to cryptographically verify the token with Google
+        (that needs your Secret Key, which must never be used in
+        client-side code). Combined with the honeypot field, this
+        blocks the vast majority of simple bots, but a determined
+        attacker could still bypass a client-only check. Once
+        Supabase is wired up for the blog, we can move real
+        reCAPTCHA verification there too, if you want it airtight.
+     4. Access is remembered per-browser (localStorage) so a
+        visitor who already submitted isn't asked again — clear
+        "pfx_roi_unlocked" in dev tools to test the gate again.
+     ========================================================= */
+  var GATE_HUBSPOT_PORTAL_ID = "YOUR_PORTAL_ID";
+  var GATE_HUBSPOT_FORM_GUID = "YOUR_FORM_GUID";
+
+  document.addEventListener('DOMContentLoaded', function(){
+    if (localStorage.getItem('pfx_roi_unlocked') === 'true') {
+      unlockCalculator();
+    }
+  });
+
+  function unlockCalculator(){
+    document.getElementById('gateSection').style.display = 'none';
+    document.getElementById('calcContent').style.display = '';
+  }
+
+  function submitGateForm(event){
+    event.preventDefault();
+    var form = document.getElementById('gateForm');
+    var errorBox = document.getElementById('gateError');
+    var submitBtn = document.getElementById('gateSubmitBtn');
+    errorBox.classList.remove('show');
+
+    // Honeypot: real visitors never fill this field. If it's filled, quietly stop.
+    if (document.getElementById('website').value.trim() !== '') {
+      return false;
+    }
+
+    // reCAPTCHA must be completed before we accept the form.
+    var captchaOk = false;
+    try { captchaOk = (typeof grecaptcha !== 'undefined') && grecaptcha.getResponse().length > 0; }
+    catch (e) { captchaOk = false; }
+    if (!captchaOk) {
+      errorBox.textContent = 'Please complete the CAPTCHA to continue.';
+      errorBox.classList.add('show');
+      return false;
+    }
+
+    var data = new FormData(form);
+    var fieldMap = {
+      firstname: "firstname",
+      lastname: "lastname",
+      phone: "phone",
+      email: "email",
+      country: "country",
+      company: "company",
+      location: "location",
+      pincode: "zip"
+    };
+    var fields = [];
+    Object.keys(fieldMap).forEach(function(localName){
+      var val = data.get(localName);
+      if (val !== null && val !== "") {
+        fields.push({ name: fieldMap[localName], value: val });
+      }
+    });
+
+    var payload = {
+      fields: fields,
+      context: { pageUri: window.location.href, pageName: document.title }
+    };
+    var endpoint = "https://api.hsforms.com/submissions/v3/integration/submit/"
+      + GATE_HUBSPOT_PORTAL_ID + "/" + GATE_HUBSPOT_FORM_GUID;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(function(res){
+      if (res.ok) {
+        localStorage.setItem('pfx_roi_unlocked', 'true');
+        unlockCalculator();
+      } else {
+        errorBox.textContent = 'Something went wrong submitting the form. Please try again.';
+        errorBox.classList.add('show');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Unlock Calculator';
+        if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
+      }
+    })
+    .catch(function(){
+      errorBox.textContent = 'Something went wrong submitting the form. Please try again.';
+      errorBox.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Unlock Calculator';
+      if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
+    });
+
+    return false;
+  }
 </script>
 
 <script src="blog-data.js"></script>

@@ -59,11 +59,12 @@
     min-height:776.4px; /* visual box itself grows 35% (504px -> 680.4px); 96px accounts for the fixed top/bottom padding */
     padding:48px 86.4px 48px 134px; /* contained layout — text and visual sit inside normal page padding, image no longer bleeds to the screen edges */
   }
+  .hero-particles{position:absolute; inset:0; z-index:0; pointer-events:none; display:block;}
   .hero-content{
     position:relative; z-index:5;
     max-width:500px; flex-shrink:0; padding:0;
     margin-top:55.3px; /* fixed anchor point (was vertically centered at the old 600px height) — pinned here so growing the visual never moves the text */
-    transform:translateX(15%); /* moved 20% left from the previous 35% shift, net 15% right of its original position */
+    transform:translateX(15%) translateY(20%); /* translateY: block moved down 20% of its own height; nothing else (visual size/position, horizontal placement) touched */
   }
   /* White gradient behind the shifted text so it stays readable over the image where the two now overlap */
   .hero-content::before{
@@ -312,6 +313,7 @@
 </header>
 
 <section class="hero">
+  <canvas class="hero-particles" id="heroParticleCanvas" aria-hidden="true"></canvas>
   <div class="hero-content">
     <div class="hero-text-block">
       <img src="powered-by-pfx.png" alt="Powered by PFX" class="hero-powered-by">
@@ -681,6 +683,104 @@
       setHeroSlide(heroSlideOrder[nextIndex]);
     });
   }
+
+  // Ambient dot field behind the hero — denser toward the image, sparse toward the text.
+  // Dots wander very slowly on their own and drift gently away from the cursor.
+  (function(){
+    var canvas = document.getElementById('heroParticleCanvas');
+    if(!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+    var hero = document.querySelector('.hero');
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0;
+    var particles = [];
+    var mouse = {x:-9999, y:-9999};
+
+    function resize(){
+      var rect = hero.getBoundingClientRect();
+      W = rect.width; H = rect.height;
+      canvas.width = Math.round(W * DPR);
+      canvas.height = Math.round(H * DPR);
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+
+    function makeParticles(){
+      particles = [];
+      var count = Math.round((W * H) / 8000);
+      count = Math.max(50, Math.min(160, count));
+      for(var i = 0; i < count; i++){
+        // skew x toward the right (image side) — more dots near the visual, fewer near the text
+        var t = Math.pow(Math.random(), 0.55);
+        var x = t * W;
+        var y = Math.random() * H;
+        particles.push({
+          x:x, y:y, baseX:x, baseY:y,
+          vx:0, vy:0,
+          r: 0.6 + Math.random() * 2.1, // stays under 3px
+          o: 0.06 + Math.random() * 0.26,
+          angle: Math.random() * Math.PI * 2,
+          wobble: 0.03 + Math.random() * 0.05
+        });
+      }
+    }
+
+    function tick(){
+      ctx.clearRect(0, 0, W, H);
+      for(var i = 0; i < particles.length; i++){
+        var p = particles[i];
+
+        // very slow, lazy autonomous wander
+        p.angle += (Math.random() - 0.5) * 0.04;
+        var wanderX = Math.cos(p.angle) * p.wobble;
+        var wanderY = Math.sin(p.angle) * p.wobble;
+
+        // faint pull back toward its home spot so dots don't wander off forever
+        var homeX = (p.baseX - p.x) * 0.0015;
+        var homeY = (p.baseY - p.y) * 0.0015;
+
+        // gentle, sluggish drift away from the cursor
+        var dx = p.x - mouse.x, dy = p.y - mouse.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        var pushX = 0, pushY = 0;
+        var repelRadius = 90;
+        if(dist < repelRadius && dist > 0.01){
+          var force = (1 - dist / repelRadius) * 0.05;
+          pushX = (dx / dist) * force;
+          pushY = (dy / dist) * force;
+        }
+
+        p.vx = (p.vx + wanderX * 0.02 + homeX + pushX) * 0.94; // heavy damping = sluggish
+        p.vy = (p.vy + wanderY * 0.02 + homeY + pushY) * 0.94;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(130,130,130,' + p.o + ')';
+        ctx.fill();
+      }
+      requestAnimationFrame(tick);
+    }
+
+    hero.addEventListener('mousemove', function(e){
+      var rect = hero.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+    hero.addEventListener('mouseleave', function(){
+      mouse.x = -9999; mouse.y = -9999;
+    });
+    window.addEventListener('resize', function(){
+      resize();
+      makeParticles();
+    });
+
+    resize();
+    makeParticles();
+    requestAnimationFrame(tick);
+  })();
 
   function toggleMoreInfo(btn){
     var panel = document.getElementById('moreInfoPanel');

@@ -62,6 +62,16 @@
   .hero-content{
     position:relative; z-index:5;
     max-width:500px; flex-shrink:0; padding:0;
+    transform:translateX(35%); /* shifted right 35% of its own width — transform doesn't affect flex flow, so the hero visual's box stays exactly where it was */
+  }
+  /* White gradient behind the shifted text so it stays readable over the image where the two now overlap */
+  .hero-content::before{
+    content:"";
+    position:absolute;
+    top:-48px; bottom:-48px; left:-60px; right:-260px;
+    background:linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.98) 62%, rgba(255,255,255,0) 100%);
+    z-index:-1;
+    pointer-events:none;
   }
   .hero-powered-by{width:75px; height:auto; display:block; margin-bottom:18px;} /* size reduced 50% (150px -> 75px) */
   .hero h1{
@@ -161,7 +171,7 @@
     display:grid; grid-template-columns:repeat(4, 1fr); gap:12px;
   }
   .card{
-    background:var(--panel); border-radius:12px; padding:14.4px 18px; /* side padding increased 25% (14.4px -> 18px); top/bottom unchanged */
+    background:var(--panel); border-radius:12px; padding:14.4px 18px 14.4px 24.3px; /* left padding increased 35% (18px -> 24.3px) */
   }
   .card .icon{width:18.2px; height:18.2px; margin-bottom:10.5px; display:block; color:#333333;} /* icon size reduced 35% (28px -> 18.2px) */
   .card h3{font-size:16px; font-weight:700; margin-bottom:4.8px;}
@@ -271,7 +281,8 @@
   }
   @media (max-width: 900px){
     .hero{flex-direction:column; padding:32px 24px; min-height:0;}
-    .hero-content{max-width:100%;}
+    .hero-content{max-width:100%; transform:none;}
+    .hero-content::before{content:none;}
     .hero-media-wrap{width:100%; align-self:stretch; aspect-ratio:4/3; margin-top:24px;}
     .card-grid{grid-template-columns:repeat(2,1fr);}
     .kiosk-grid{grid-template-columns:1fr;}

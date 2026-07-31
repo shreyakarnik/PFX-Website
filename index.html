@@ -53,23 +53,15 @@
   /* HERO — visual permanently confined to the right side; text/buttons unchanged */
   .hero{
     position:relative;
-    width:100%; height:100vh; /* hero section still fills the screen top-to-bottom */
-    overflow:hidden;
-    margin:0;
+    width:100%; overflow:hidden; margin:0;
     background:var(--white);
-  }
-  /* Soft light scrim right where the text column meets the media column, so the edge isn't a hard line */
-  .hero::before{
-    content:"";
-    position:absolute; inset:0;
-    background:linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.6) calc(754px - 60px), rgba(255,255,255,0) 754px);
-    z-index:2; pointer-events:none;
+    display:flex; align-items:center; justify-content:space-between; gap:40px;
+    min-height:600px;
+    padding:48px 86.4px 48px 134px; /* contained layout — text and visual sit inside normal page padding, image no longer bleeds to the screen edges */
   }
   .hero-content{
-    position:absolute; z-index:5;
-    top:50%; left:0;
-    transform:translateY(-50%); /* same vertical centering as before */
-    max-width:620px; padding-left:134px; padding-right:24px; /* was 103px — moved ~30% further right */
+    position:relative; z-index:5;
+    max-width:500px; flex-shrink:0; padding:0;
   }
   .hero-text-block{transform:translateY(-25%);} /* was -50% — moved down 25% while the buttons below stay put */
   .hero h1{
@@ -91,7 +83,10 @@
     background:#fff; color:var(--ink); padding:14px 24px; border-radius:12px;
     font-weight:400; font-size:15px; border:1.5px solid #D8DADE; display:inline-block; cursor:pointer;
   }
-  .hero-media-wrap{position:absolute; inset:0; z-index:1;} /* full-bleed behind the text — the white gradient below is what keeps the text readable, not a cropped box */
+  .hero-media-wrap{
+    position:relative; z-index:1; flex:1 1 auto; align-self:stretch; min-width:0;
+    border-radius:12px; overflow:hidden;
+  }
   .hero-slider{
     width:100%; height:100%; overflow:hidden;
     position:relative;
@@ -275,8 +270,10 @@
     .form-row{grid-template-columns:1fr;}
   }
   @media (max-width: 900px){
-    .hero-content{padding-left:24px; padding-right:24px; max-width:100%;}
-    .hero::before{background:linear-gradient(90deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.9) 55%, rgba(255,255,255,0.15) 100%);}
+    .hero{flex-direction:column; padding:32px 24px; min-height:0;}
+    .hero-content{max-width:100%;}
+    .hero-text-block, .hero-ctas{transform:none;} /* desktop nudges don't apply once the layout stacks */
+    .hero-media-wrap{width:100%; align-self:stretch; aspect-ratio:4/3; margin-top:24px;}
     .card-grid{grid-template-columns:repeat(2,1fr);}
     .kiosk-grid{grid-template-columns:1fr;}
     .footer-inner{flex-direction:column;}

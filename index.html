@@ -56,14 +56,14 @@
     width:100%; overflow:hidden; margin:0;
     background:var(--white);
     display:flex; align-items:center; justify-content:space-between; gap:40px;
-    min-height:600px;
+    min-height:810px; /* hero visual increased 35% (600px -> 810px) */
     padding:48px 86.4px 48px 134px; /* contained layout — text and visual sit inside normal page padding, image no longer bleeds to the screen edges */
   }
   .hero-content{
     position:relative; z-index:5;
     max-width:500px; flex-shrink:0; padding:0;
   }
-  .hero-text-block{transform:translateY(-25%);} /* was -50% — moved down 25% while the buttons below stay put */
+  .hero-powered-by{width:150px; height:auto; display:block; margin-bottom:18px;} /* sits above the headline; the whole hero-content block is centered on the visual via .hero's align-items:center */
   .hero h1{
     font-size:52px; font-weight:800; line-height:1.08; letter-spacing:-1px;
   }
@@ -74,7 +74,7 @@
   .hero p{
     margin-top:10px; font-size:17px; color:var(--gray); max-width:460px;
   }
-  .hero-ctas{display:flex; gap:8.4px; margin-top:23.5px; transform:translateY(-40%);} /* was 16.8px — 40% more space above the buttons; buttons moved up 40% independent of the text block above */
+  .hero-ctas{display:flex; gap:8.4px; margin-top:23.5px;} /* gap to the paragraph above kept exactly as-is */
   .btn-primary{
     background:var(--red); color:#fff; padding:14px 24px; border-radius:12px;
     font-weight:400; font-size:15px; display:inline-block; border:none; cursor:pointer;
@@ -272,7 +272,6 @@
   @media (max-width: 900px){
     .hero{flex-direction:column; padding:32px 24px; min-height:0;}
     .hero-content{max-width:100%;}
-    .hero-text-block, .hero-ctas{transform:none;} /* desktop nudges don't apply once the layout stacks */
     .hero-media-wrap{width:100%; align-self:stretch; aspect-ratio:4/3; margin-top:24px;}
     .card-grid{grid-template-columns:repeat(2,1fr);}
     .kiosk-grid{grid-template-columns:1fr;}
@@ -303,6 +302,7 @@
 <section class="hero">
   <div class="hero-content">
     <div class="hero-text-block">
+      <img src="powered-by-pfx.png" alt="Powered by PFX" class="hero-powered-by">
       <h1>Your Pizzeria,<br><span class="red">Now Automated.</span></h1>
       <div class="hero-stat">10K+ Pizzas Served in Under a Year</div>
       <p>PFX gives independent operators, regional chains, and franchisors a white-label pizza vending platform, your recipes, your brand, your pricing, 24/7.</p>

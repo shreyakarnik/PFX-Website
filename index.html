@@ -43,14 +43,27 @@
     background:var(--red); color:#fff; padding:10px 20px; border-radius:12px; font-weight:400;
   }
 
-  /* HERO */
+  /* HERO — full-bleed visual with the text/buttons layered on top */
   .hero{
-    display:flex; gap:5px;
-    width:100%; margin:19.2px 0 36px 0;
-    align-items:center;
+    position:relative;
+    width:100%; height:100vh; /* hero visual now covers the entire screen */
+    overflow:hidden;
+    margin:0;
   }
-  .hero-content{flex:0 1 620px; min-width:0; padding-left:134px;} /* was 103px — moved ~30% further right */
-  .hero-text-block{transform:translateY(-50%);} /* moves the heading/stat/paragraph up while the buttons below stay put in normal flow */
+  /* Soft light scrim behind the text so it stays readable over any photo/video */
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.82) 32%, rgba(255,255,255,0) 64%);
+    z-index:2; pointer-events:none;
+  }
+  .hero-content{
+    position:absolute; z-index:5;
+    top:50%; left:0;
+    transform:translateY(-50%); /* same vertical centering as before */
+    max-width:620px; padding-left:134px; padding-right:24px; /* was 103px — moved ~30% further right */
+  }
+  .hero-text-block{transform:translateY(-25%);} /* was -50% — moved down 25% while the buttons below stay put */
   .hero h1{
     font-size:52px; font-weight:800; line-height:1.08; letter-spacing:-1px;
   }
@@ -61,7 +74,7 @@
   .hero p{
     margin-top:10px; font-size:17px; color:var(--gray); max-width:460px;
   }
-  .hero-ctas{display:flex; gap:8.4px; margin-top:23.5px;} /* was 16.8px — 40% more space above the buttons */
+  .hero-ctas{display:flex; gap:8.4px; margin-top:23.5px; transform:translateY(-40%);} /* was 16.8px — 40% more space above the buttons; buttons moved up 40% independent of the text block above */
   .btn-primary{
     background:var(--red); color:#fff; padding:14px 24px; border-radius:12px;
     font-weight:400; font-size:15px; display:inline-block; border:none; cursor:pointer;
@@ -70,11 +83,10 @@
     background:#fff; color:var(--ink); padding:14px 24px; border-radius:12px;
     font-weight:400; font-size:15px; border:1.5px solid #D8DADE; display:inline-block; cursor:pointer;
   }
-  .hero-media-wrap{flex:1 1 600px; min-width:0;}
+  .hero-media-wrap{position:absolute; inset:0; width:100%; height:100%; z-index:1;}
   .hero-slider{
-    width:100%; overflow:hidden;
+    width:100%; height:100%; overflow:hidden;
     position:relative;
-    height:88vh; min-height:520px; max-height:920px; /* taller hero media — width is controlled separately by .hero-media-wrap's flex-basis and is unaffected by this */
     background:var(--white);
   }
   .hero-arrow{
@@ -112,9 +124,11 @@
     display:flex; align-items:center; justify-content:center;
     color:#aaa; font-size:14px; text-align:center; padding:20px;
   }
-  /* HERO DOTS — one per kiosk variant (indoor / atm / outdoor) */
+  /* HERO DOTS — one per kiosk variant (indoor / atm / outdoor), floating over the visual */
   .hero-dots{
-    display:flex; justify-content:center; gap:8px; margin-top:14px;
+    position:absolute; z-index:5; left:50%; bottom:28px; transform:translateX(-50%);
+    display:flex; justify-content:center; gap:8px;
+    background:rgba(255,255,255,0.85); padding:8px 14px; border-radius:20px;
   }
   .hero-dots button{
     width:9px; height:9px; padding:0; border:none; border-radius:50%;
@@ -252,9 +266,8 @@
     .form-row{grid-template-columns:1fr;}
   }
   @media (max-width: 900px){
-    .hero-content{padding-left:24px; padding-right:24px;}
-    .hero{flex-direction:column;}
-    .hero-slider{height:50vh; min-height:320px;}
+    .hero-content{padding-left:24px; padding-right:24px; max-width:100%;}
+    .hero::before{background:linear-gradient(90deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.9) 55%, rgba(255,255,255,0.15) 100%);}
     .card-grid{grid-template-columns:repeat(2,1fr);}
     .kiosk-grid{grid-template-columns:1fr;}
     .footer-inner{flex-direction:column;}

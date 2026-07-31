@@ -17,7 +17,7 @@
   --black:#000000; --mid:#444444; --muted:#333333; --hint:#555555;
   --white:#ffffff; --off:#f8f7f4; --off2:#f0eee9;
   --border:rgba(0,0,0,0.1); --border2:rgba(0,0,0,0.07);
-  --green:#1c6e37; --gray:#888686;
+  --green:#1c6e37; --gray:#8591A0;
 }
 html{scroll-behavior:smooth;}
 body{font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:var(--white);color:var(--black);-webkit-font-smoothing:antialiased;line-height:1.6;}
@@ -35,7 +35,14 @@ nav.links{display:flex; align-items:center; gap:19.2px; font-size:15px; font-wei
 nav.links a{text-decoration:none; color:var(--black);}
 nav.links a.talk{
   background:var(--red); color:#fff; padding:10px 20px; border-radius:12px; font-weight:400;
+  }
+.nav-logo-btn{
+  display:flex; align-items:center; justify-content:center;
+  width:40px; height:40px; padding:0; flex-shrink:0;
+  background:#fff; border:1.5px solid #D8DADE; border-radius:12px;
 }
+.nav-logo-btn:hover{border-color:var(--red);}
+.nav-logo-btn img{width:22px; height:22px; display:block; object-fit:contain;}
 
 /* FOOTER (shared identically across every page) */
 footer{border-top:1px solid var(--border); margin-top:60px; padding:36px 57.6px 24px;}
@@ -62,7 +69,7 @@ footer{border-top:1px solid var(--border); margin-top:60px; padding:36px 57.6px 
 .calc-right{padding:36px;background:var(--off);}
 
 .model-btns{display:flex;gap:6px;margin-bottom:30px;}
-.mbtn{flex:1;padding:11px 6px;border-radius:12px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;font-family:inherit;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);text-align:center;line-height:1.5;transition:all .15s;}
+.mbtn{flex:1;padding:11px 6px;border-radius:12px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;font-family:inherit;font-size:10px;font-weight:400;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);text-align:center;line-height:1.5;transition:all .15s;}
 .mbtn:hover{border-color:var(--red-border);color:var(--black);}
 .mbtn.on{background:var(--red);color:#fff;border-color:var(--red);}
 .mbtn .mprice{display:block;font-size:10px;opacity:.7;font-weight:400;margin-top:2px;letter-spacing:.03em;}
@@ -154,7 +161,7 @@ body.gate-locked{overflow:hidden;}
 .gate-error.show{display:block;}
 .gate-form .btn-primary{
   width:100%;background:var(--red);color:#fff;border:none;border-radius:12px;
-  padding:14px 24px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;font-family:inherit;
+  padding:14px 24px;font-size:15px;font-weight:400;cursor:pointer;margin-top:8px;font-family:inherit;
 }
 .gate-form .btn-primary:hover{background:var(--red-dark);}
 .gate-form .btn-primary:disabled{opacity:.6;cursor:default;}
@@ -183,6 +190,9 @@ body.gate-locked{overflow:hidden;}
     <button type="button" class="search-btn" id="siteSearchBtn" aria-label="Search blog">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
     </button>
+    <a href="https://www.pizzaforno.com" class="nav-logo-btn" target="_blank" rel="noopener" aria-label="Powered by PizzaForno">
+      <img src="pizzaforno-logomark.png" alt="PizzaForno">
+    </a>
     <a href="contact.html" class="talk">Let's Talk!</a>
   </nav>
 </header>
@@ -264,8 +274,8 @@ body.gate-locked{overflow:hidden;}
             <p>Illustrative estimates only — not a guarantee of earnings. Actual results vary by location, foot traffic, and operating conditions.</p>
           </div>
           <div style="display:flex;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;flex-shrink:0;align-self:center;">
-            <button id="btn-usd" onclick="setCurrency('usd')" style="padding:9px 18px;background:var(--red);color:white;font-family:inherit;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;">🇺🇸 USD</button>
-            <button id="btn-cad" onclick="setCurrency('cad')" style="padding:9px 18px;background:white;color:var(--muted);font-family:inherit;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;">🇨🇦 CAD</button>
+            <button id="btn-usd" onclick="setCurrency('usd')" style="padding:9px 18px;background:var(--red);color:white;font-family:inherit;font-size:11px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;">🇺🇸 USD</button>
+            <button id="btn-cad" onclick="setCurrency('cad')" style="padding:9px 18px;background:white;color:var(--muted);font-family:inherit;font-size:11px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;">🇨🇦 CAD</button>
           </div>
         </div>
       </div>

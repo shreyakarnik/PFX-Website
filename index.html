@@ -13,7 +13,7 @@
     --red:#C00022;
     --red-dark:#A80F22;
     --ink:#000000;
-    --gray:#888686;
+    --gray:#8591A0;
     --line:#E8EAED;
     --panel:#EFF3F5;
     --section-bg:#EAF0F2;
@@ -42,6 +42,13 @@
   nav.links a.talk{
     background:var(--red); color:#fff; padding:10px 20px; border-radius:12px; font-weight:400;
   }
+  .nav-logo-btn{
+    display:flex; align-items:center; justify-content:center;
+    width:40px; height:40px; padding:0; flex-shrink:0;
+    background:#fff; border:1.5px solid #D8DADE; border-radius:12px;
+  }
+  .nav-logo-btn:hover{border-color:var(--red);}
+  .nav-logo-btn img{width:22px; height:22px; display:block; object-fit:contain;}
 
   /* HERO — visual permanently confined to the right side; text/buttons unchanged */
   .hero{
@@ -84,7 +91,7 @@
     background:#fff; color:var(--ink); padding:14px 24px; border-radius:12px;
     font-weight:400; font-size:15px; border:1.5px solid #D8DADE; display:inline-block; cursor:pointer;
   }
-  .hero-media-wrap{position:absolute; top:0; right:0; bottom:0; left:754px; z-index:1;} /* confined to the right side — starts exactly where the text column ends, so it never drifts back to center */
+  .hero-media-wrap{position:absolute; inset:0; z-index:1;} /* full-bleed behind the text — the white gradient below is what keeps the text readable, not a cropped box */
   .hero-slider{
     width:100%; height:100%; overflow:hidden;
     position:relative;
@@ -159,9 +166,9 @@
     display:grid; grid-template-columns:repeat(4, 1fr); gap:12px;
   }
   .card{
-    background:var(--panel); border-radius:12px; padding:14.4px;
+    background:var(--panel); border-radius:12px; padding:14.4px 18px; /* side padding increased 25% (14.4px -> 18px); top/bottom unchanged */
   }
-  .card .icon{width:28px; height:28px; margin-bottom:8.4px; display:block; color:#333333;}
+  .card .icon{width:28px; height:28px; margin-bottom:10.5px; display:block; color:#333333;} /* gap to title increased 25% (8.4px -> 10.5px) */
   .card h3{font-size:16px; font-weight:700; margin-bottom:4.8px;}
   .card p{font-size:14px; color:var(--gray); text-transform:capitalize;}
 
@@ -269,7 +276,6 @@
   }
   @media (max-width: 900px){
     .hero-content{padding-left:24px; padding-right:24px; max-width:100%;}
-    .hero-media-wrap{left:0;} /* not enough room for a side-by-side split on small screens — media goes back to full width behind the text */
     .hero::before{background:linear-gradient(90deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.9) 55%, rgba(255,255,255,0.15) 100%);}
     .card-grid{grid-template-columns:repeat(2,1fr);}
     .kiosk-grid{grid-template-columns:1fr;}
@@ -290,6 +296,9 @@
     <button type="button" class="search-btn" id="siteSearchBtn" aria-label="Search blog">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
     </button>
+    <a href="https://www.pizzaforno.com" class="nav-logo-btn" target="_blank" rel="noopener" aria-label="Powered by PizzaForno">
+      <img src="pizzaforno-logomark.png" alt="PizzaForno">
+    </a>
     <a href="contact.html" class="talk">Let's Talk!</a>
   </nav>
 </header>

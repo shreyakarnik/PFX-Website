@@ -47,7 +47,7 @@
     }
     .search-close{
       border:none; background:none; cursor:pointer; color:#888686;
-      font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+      font-size:13px; font-weight:400; letter-spacing:.05em; text-transform:uppercase;
       padding:6px 10px; border-radius:12px;
     }
     .search-close:hover{ background:#EFF3F5; color:#000; }

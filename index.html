@@ -109,6 +109,7 @@
   .hero-slide video, .hero-slide img, .hero-slide .placeholder{
     position:absolute; top:0; left:0;
     width:100%; height:100%; border-radius:0; display:block; object-fit:cover;
+    object-position:right center; /* your kiosk photos have empty space on the left and the product on the right, so anchor the crop to the right edge instead of the center */
     background:var(--white);
   }
   .slide-poster{

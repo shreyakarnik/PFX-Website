@@ -43,18 +43,19 @@
     background:var(--red); color:#fff; padding:10px 20px; border-radius:12px; font-weight:400;
   }
 
-  /* HERO — full-bleed visual with the text/buttons layered on top */
+  /* HERO — visual permanently confined to the right side; text/buttons unchanged */
   .hero{
     position:relative;
-    width:100%; height:100vh; /* hero visual now covers the entire screen */
+    width:100%; height:100vh; /* hero section still fills the screen top-to-bottom */
     overflow:hidden;
     margin:0;
+    background:var(--white);
   }
-  /* Soft light scrim behind the text so it stays readable over any photo/video */
+  /* Soft light scrim right where the text column meets the media column, so the edge isn't a hard line */
   .hero::before{
     content:"";
     position:absolute; inset:0;
-    background:linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.82) 32%, rgba(255,255,255,0) 64%);
+    background:linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.6) calc(754px - 60px), rgba(255,255,255,0) 754px);
     z-index:2; pointer-events:none;
   }
   .hero-content{
@@ -83,7 +84,7 @@
     background:#fff; color:var(--ink); padding:14px 24px; border-radius:12px;
     font-weight:400; font-size:15px; border:1.5px solid #D8DADE; display:inline-block; cursor:pointer;
   }
-  .hero-media-wrap{position:absolute; inset:0; width:100%; height:100%; z-index:1;}
+  .hero-media-wrap{position:absolute; top:0; right:0; bottom:0; left:754px; z-index:1;} /* confined to the right side — starts exactly where the text column ends, so it never drifts back to center */
   .hero-slider{
     width:100%; height:100%; overflow:hidden;
     position:relative;
@@ -268,6 +269,7 @@
   }
   @media (max-width: 900px){
     .hero-content{padding-left:24px; padding-right:24px; max-width:100%;}
+    .hero-media-wrap{left:0;} /* not enough room for a side-by-side split on small screens — media goes back to full width behind the text */
     .hero::before{background:linear-gradient(90deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.9) 55%, rgba(255,255,255,0.15) 100%);}
     .card-grid{grid-template-columns:repeat(2,1fr);}
     .kiosk-grid{grid-template-columns:1fr;}
@@ -360,7 +362,7 @@
 <section class="feature">
   <div class="eyebrow">Your Brand. Your Business</div>
   <h2>Complete Control of Your Brand</h2>
-  <p class="sub">Unlike franchise programs, you own the equipment and keep full control.</p>
+  <p class="sub">Unlike franchise programs, you own the equipment and keep full control. We're built for Independent Operators, Regional Chains, Franchisors, and even Convenience Stores.</p>
   <div class="card-grid">
     <div class="card">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5V4.5Z"></path><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><line x1="8" y1="7.2" x2="15" y2="7.2"></line><line x1="8" y1="10.6" x2="13" y2="10.6"></line></svg>
@@ -382,23 +384,15 @@
       <h3>Your Operations</h3>
       <p>You prep, stock, and manage on your schedule no third party.</p>
     </div>
-  </div>
-</section>
-
-<section class="feature">
-  <div class="eyebrow">Value Proposition</div>
-  <h2>Built for Independent Operators</h2>
-  <p class="sub">As well as Regional Chains, Franchisors, and even Convenience Stores</p>
-  <div class="card-grid">
     <div class="card">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1.5" x2="12" y2="22.5"></line><path d="M17 5.2H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6.5"></path><line x1="4" y1="20" x2="20" y2="4"></line></svg>
       <h3>No Franchise Fees</h3>
       <p>Buy the equipment, keep the profits.</p>
     </div>
     <div class="card">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6.5"></circle><polyline points="8.1 13.8 6.9 22 12 19 17.1 22 15.9 13.8"></polyline></svg>
-      <h3>Your Brand, Your Profits</h3>
-      <p>100% Customisation to match your brand.</p>
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path><rect x="9" y="3" width="6" height="4" rx="1"></rect><path d="m9 13.5 2 2 4-4.5"></path></svg>
+      <h3>Recipe Performance Testing</h3>
+      <p>Your pizzas are tested to ensure perfect baking and customer satisfaction.</p>
     </div>
     <div class="card">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 20 5.5v6.4c0 5.4-3.4 8.7-8 9.6-4.6-.9-8-4.2-8-9.6V5.5Z"></path><polyline points="8.5 12 10.8 14.3 15.5 9.6"></polyline></svg>
@@ -444,7 +438,7 @@
   <p class="sub">As well as Regional Chains, Franchisors, and even Convenience Stores</p>
   <div class="card-grid">
     <div class="card">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.2"></circle><line x1="10.5" y1="12.3" x2="19" y2="3.8"></line><line x1="15" y1="8" x2="18" y2="5"></line><line x1="17.2" y1="6.3" x2="20.2" y2="3.3"></line></svg>
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="5.5"></circle><path d="M21 2 11.4 11.6"></path><path d="M15.5 7.5 19 11l3-3-3.5-3.5"></path></svg>
       <h3>Turnkey Services</h3>
       <p>Turnkey install + training, extended service plans, unit customization.</p>
     </div>

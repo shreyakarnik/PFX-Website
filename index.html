@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="analytics.js"></script>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
 <title>PFX — Your Pizzeria, Now Automated</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -194,6 +199,9 @@
     background:#ddd;
   }
   .kiosk-card h3{font-size:20px; font-weight:800; margin-bottom:6px;}
+  .kiosk-price{font-size:16px; font-weight:800; color:var(--ink); margin-bottom:3px;}
+  .kiosk-price .usd{font-weight:400; color:var(--gray); font-size:13px; margin-left:4px;}
+  .kiosk-specs{color:var(--gray); font-size:12.5px; margin-bottom:8.4px; line-height:1.5;}
   .kiosk-card p{color:var(--gray); font-size:14.5px; margin-bottom:8.4px;}
   .kiosk-card .link{color:var(--red); font-weight:700; font-size:14.5px;}
 
@@ -435,18 +443,24 @@
     <div class="kiosk-card">
       <img src="kiosk_indoor.png" alt="Indoor Kiosk" class="img-placeholder">
       <h3>Indoor Kiosk</h3>
+      <div class="kiosk-price">$98,216 <span class="usd">USD</span></div>
+      <div class="kiosk-specs">9'5" L × 4'5" W × 8'0" H · 208V 20A Single Phase</div>
       <p>Bring your pizza to busy indoor locations like hospitals, airports, campuses with minimal footprint.</p>
       <a href="#" class="link">Explore Indoor Kiosk →</a>
     </div>
     <div class="kiosk-card">
       <img src="kiosk_atm.png" alt="ATM Kiosk" class="img-placeholder">
       <h3>ATM Kiosk</h3>
+      <div class="kiosk-price">$86,078 <span class="usd">USD</span></div>
+      <div class="kiosk-specs">8'0" L × 5'0" W × 8'0" H · 208V 20A Single Phase</div>
       <p>Extend operating hours with a compact, space-saving pizza solution.</p>
       <a href="#" class="link">Explore ATM Kiosk →</a>
     </div>
     <div class="kiosk-card">
       <img src="kiosk_outdoor.jpg" alt="Outdoor Kiosk" class="img-placeholder">
       <h3>Outdoor Kiosk</h3>
+      <div class="kiosk-price">$109,617 <span class="usd">USD</span></div>
+      <div class="kiosk-specs">10'8" L × 8'0" W × 8'7" H · 208–240V 50A Single Phase</div>
       <p>Expand into new markets, test the market, all without the cost of a traditional restaurant.</p>
       <a href="#" class="link">Explore Outdoor Kiosk →</a>
     </div>
@@ -455,7 +469,7 @@
 
 <section class="feature">
   <h2>What's Included?</h2>
-  <p class="sub">As well as Regional Chains, Franchisors, and even Convenience Stores</p>
+  <p class="sub">From setup to seamless operation, we've got you covered every step of the way.</p>
   <div class="card-grid">
     <div class="card">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="5.5"></circle><path d="M21 2 11.4 11.6"></path><path d="M15.5 7.5 19 11l3-3-3.5-3.5"></path></svg>
@@ -493,7 +507,7 @@
       <div class="form-section-title">Contact Information</div>
       <div class="form-row">
         <div class="form-group">
-          <label>Name*</label>
+          <label>First Name*</label>
           <input type="text" name="name" required>
         </div>
         <div class="form-group">

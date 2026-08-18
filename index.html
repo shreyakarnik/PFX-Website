@@ -48,18 +48,13 @@
   /* NAV */
   header.nav{
     display:flex; align-items:center; justify-content:space-between;
-    padding:12px 80px;
+    padding:12px 112px;
     max-width:1282px; margin:20px auto 0;
     position:sticky; top:20px; z-index:100;
     background:rgba(0,0,0,0.45);
     backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
     border:1px solid rgba(255,255,255,0.08);
     border-radius:50px;
-  }
-  .nav-align{
-    width:100%; max-width:1062px; margin:0 auto; box-sizing:border-box;
-    padding:0 109px;
-    display:flex; align-items:center; justify-content:space-between;
   }
   .logo{font-size:26px; font-weight:800; letter-spacing:-0.5px; color:var(--white);}
   .logo span{color:var(--red);}
@@ -213,7 +208,6 @@
 
   @media (max-width: 900px){
     header.nav{margin:12px; padding:10px 16px;}
-    .nav-align{padding:0; max-width:none;}
     nav.links{gap:12px; font-size:13px;}
     nav.links a:not(.talk), nav.links .search-btn{display:none;}
     .hero{padding:64px 24px 56px;}
@@ -240,7 +234,6 @@
 <body>
 
 <header class="nav">
-  <div class="nav-align">
   <a href="index.html" class="logo">PF<span>X</span></a>
   <nav class="links">
     <a href="kiosk-outdoor.html">Explore Kiosk</a>
@@ -257,7 +250,6 @@
     </a>
     <a href="contact.html" class="talk" data-talk-trigger>Let's Talk!</a>
   </nav>
-  </div>
 </header>
 
 <section class="hero">

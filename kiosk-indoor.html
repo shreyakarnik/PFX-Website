@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="talk-modal.css">
 <style>
   :root{
     --red:#C00022;
@@ -167,7 +168,7 @@
 <header class="nav">
   <a href="index.html" class="logo">PF<span>X</span></a>
   <nav class="links">
-    <a href="index.html#kiosks">Explore Kiosk</a>
+    <a href="kiosk-outdoor.html">Explore Kiosk</a>
     <a href="index.html#case-study">Case Study</a>
     <a href="roi_calculator.html">ROI Calculator</a>
     <a href="index.html#faq">FAQ</a>
@@ -179,7 +180,7 @@
     <a href="https://www.pizzaforno.com" class="nav-logo-btn" target="_blank" rel="noopener" aria-label="Powered by PizzaForno">
       <img src="pizzaforno-logomark.png" alt="PizzaForno">
     </a>
-    <a href="contact.html" class="talk">Let's Talk!</a>
+    <a href="contact.html" class="talk" data-talk-trigger>Let's Talk!</a>
   </nav>
 </header>
 
@@ -246,7 +247,7 @@
 </section>
 
 <div class="k-cta">
-  <a href="contact.html" class="btn-primary">Let's Talk!</a>
+  <a href="contact.html" class="btn-primary" data-talk-trigger>Let's Talk!</a>
 </div>
 
 <section class="deploy-section">
@@ -294,6 +295,7 @@
 
 <script src="blog-data.js"></script>
 <script src="site-search.js"></script>
+<script src="talk-modal.js"></script>
 
 </body>
 </html>

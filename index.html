@@ -145,7 +145,17 @@
   }
   .card-grid .cards-col{display:grid; gap:24px;}
   .card{
-    background:var(--panel); border:1px solid rgba(255,255,255,0.08); border-radius:22px; padding:32px 40px 30px 41px;
+    position:relative;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 62%),
+      var(--panel);
+    border:1px solid rgba(255,255,255,0.1); border-radius:22px; padding:32px 40px 30px 41px;
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    box-shadow:
+      0 16px 40px rgba(0,0,0,0.35),
+      inset 1px 1px 0 rgba(255,255,255,0.2),
+      inset -1px -1px 0 rgba(0,0,0,0.25);
   }
   .card h3{font-size:16px; font-weight:600; margin-bottom:14px; color:var(--white);}
   .card p{font-size:14px; color:rgba(255,255,255,0.7); line-height:1.45;}
@@ -175,8 +185,18 @@
   .faq-grid{display:grid; grid-template-columns:407px 1fr; gap:24px; align-items:start;}
   .faq-list{display:grid; gap:16px;}
   .faq-item{
-    background:var(--panel); border:1px solid rgba(255,255,255,0.08); border-radius:18px;
+    position:relative;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 62%),
+      var(--panel);
+    border:1px solid rgba(255,255,255,0.1); border-radius:18px;
     overflow:hidden;
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    box-shadow:
+      0 16px 40px rgba(0,0,0,0.35),
+      inset 1px 1px 0 rgba(255,255,255,0.2),
+      inset -1px -1px 0 rgba(0,0,0,0.25);
   }
   .faq-q{
     width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px;

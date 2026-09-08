@@ -114,19 +114,24 @@
   }
   .seenon-card{
     max-width:1280px; margin:0 auto;
-    display:flex; align-items:center; gap:32px;
+    display:flex; align-items:center; gap:40px; flex-wrap:wrap;
     border:1px solid rgba(255,255,255,0.14); border-radius:200px;
-    padding:20px 56px; min-height:213px;
+    padding:28px 56px; min-height:213px;
   }
-  .seenon-logo{
-    width:124px; height:124px; border-radius:50%; background:#fff; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center; overflow:hidden;
-    padding:14px;
-  }
-  .seenon-logo img{width:100%; height:100%; object-fit:contain;}
   .seenon-label{
-    flex:1; text-align:center; font-size:15px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.6);
+    flex-shrink:0; font-size:15px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.6);
   }
+  .seenon-logos{
+    flex:1; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:16px;
+  }
+  .seenon-press-logo{
+    background:#fff; border-radius:12px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+    height:52px; padding:10px 18px; transition:transform .15s ease;
+  }
+  .seenon-press-logo:hover{transform:translateY(-2px);}
+  .seenon-press-logo img{height:100%; width:auto; max-width:130px; object-fit:contain; display:block;}
+  .seenon-press-logo--dark{background:none; padding:10px 4px;}
 
   /* SECTIONS */
   section.feature{margin:96px auto;}
@@ -236,7 +241,10 @@
     .hero p{max-width:100%;}
     .hero-ctas{flex-wrap:wrap;}
     .seenon{padding:24px 24px 0;}
-    .seenon-card{flex-direction:column; border-radius:32px; padding:32px 24px; text-align:center; min-height:0;}
+    .seenon-card{flex-direction:column; border-radius:32px; padding:32px 24px; text-align:center; min-height:0; gap:20px;}
+    .seenon-logos{justify-content:center; gap:12px;}
+    .seenon-press-logo{height:44px; padding:8px 14px;}
+    .seenon-press-logo img{max-width:100px;}
     .wrap80{padding:0 24px;}
     section.feature{margin:64px auto;}
     .card-grid{grid-template-columns:1fr;}
@@ -294,8 +302,17 @@
 
 <section class="seenon" id="case-study">
   <div class="seenon-card">
-    <div class="seenon-logo"><img src="pizzaforno-logomark.png" alt="PizzaForno"></div>
     <div class="seenon-label">As Seen On</div>
+    <div class="seenon-logos">
+      <a class="seenon-press-logo" href="https://www.thrillist.com/news/nation/pizzaforno-is-rolling-out-pizza-making-kiosks" target="_blank" rel="noopener"><img src="Images/Thrillist.webp" alt="Thrillist"></a>
+      <a class="seenon-press-logo" href="https://www.qsrmagazine.com/news/pizzaforno-sees-growth-spurt-in-first-half-of-2024/" target="_blank" rel="noopener"><img src="Images/QSR.svg" alt="QSR"></a>
+      <a class="seenon-press-logo" href="https://curiocity.com/pizzaforno-calgary/" target="_blank" rel="noopener"><img src="Images/curiosity.svg" alt="Curiosity"></a>
+      <a class="seenon-press-logo" href="https://www.ctvnews.ca/kitchener/article/pizza-vending-machine-at-university-of-guelph-goes-viral-thanks-to-pizza-cam/" target="_blank" rel="noopener"><img src="Images/CTV.png" alt="CTV News"></a>
+      <a class="seenon-press-logo" href="https://www.vendingtimes.com/news/pizza-vending-at-ontario-university-goes-viral/" target="_blank" rel="noopener"><img src="Images/vendingtimes.jpeg" alt="Vending Times"></a>
+      <a class="seenon-press-logo seenon-press-logo--dark" href="https://www.businesswire.com/news/home/20250731251164/en/PizzaForno-Heats-Up-West-Coast-Expansion-with-247-Pizza-Vending-Machines-at-Southern-California-College-Campuses" target="_blank" rel="noopener"><img src="Images/businesswire.png" alt="Business Wire"></a>
+      <a class="seenon-press-logo" href="https://retail-insider.com/retail-insider/2020/05/automated-pizza-oven-concept-pizzaforno-plans-to-open-thousands-of-locations/" target="_blank" rel="noopener"><img src="Images/retailinsider.png" alt="Retail Insider"></a>
+      <a class="seenon-press-logo" href="https://fox40.com/news/local-news/sacramento-county/pizzaforno-vending-machine-california/" target="_blank" rel="noopener"><img src="Images/fox40.webp" alt="Fox40"></a>
+    </div>
   </div>
 </section>
 

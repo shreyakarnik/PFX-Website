@@ -41,6 +41,7 @@
     position:sticky; top:0; z-index:100; background:var(--white);
   }
   .logo{font-size:34px; font-weight:800; letter-spacing:-0.5px;}
+  .logo img{height:32px; width:auto; display:block;}
   .logo span{color:var(--red);}
   nav.links{display:flex; align-items:center; gap:19.2px; font-size:15px; font-weight:400;}
   nav.links a.talk{
@@ -157,7 +158,7 @@
 <body>
 
 <header class="nav">
-  <a href="index.html" class="logo">PF<span>X</span></a>
+  <a href="index.html" class="logo" aria-label="PFX home"><img src="Images/pfx-logo.png" alt="PFX"></a>
   <nav class="links">
     <a href="index.html#kiosks">Explore Kiosks</a>
     <a href="index.html#case-study">Case Study</a>

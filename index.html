@@ -114,24 +114,34 @@
   }
   .seenon-card{
     max-width:1280px; margin:0 auto;
-    display:flex; align-items:center; gap:40px; flex-wrap:wrap;
+    display:flex; align-items:center; gap:40px;
     border:1px solid rgba(255,255,255,0.14); border-radius:200px;
-    padding:28px 56px; min-height:213px;
+    padding:28px 56px; min-height:213px; overflow:hidden;
   }
   .seenon-label{
     flex-shrink:0; font-size:15px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.6);
   }
+  /* Logos scroll continuously: the track holds two identical sets and slides by
+     exactly one set's width (-50%), so the loop is seamless. */
   .seenon-logos{
-    flex:1; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:16px;
+    flex:1; min-width:0; overflow:hidden;
+    -webkit-mask-image:linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+            mask-image:linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
   }
+  .seenon-track{display:flex; align-items:center; width:max-content; animation:seenon-scroll 40s linear infinite;}
+  .seenon-logos:hover .seenon-track{animation-play-state:paused;}
+  @keyframes seenon-scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+  .seenon-set{display:flex; align-items:center; flex-shrink:0;}
   .seenon-press-logo{
-    background:#fff; border-radius:12px; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center; overflow:hidden;
-    height:52px; padding:10px 18px; transition:transform .15s ease;
+    flex-shrink:0; display:flex; align-items:center; height:48px; padding-right:64px;
+    opacity:0.85; transition:opacity .15s ease;
   }
-  .seenon-press-logo:hover{transform:translateY(-2px);}
-  .seenon-press-logo img{height:100%; width:auto; max-width:130px; object-fit:contain; display:block;}
-  .seenon-press-logo--dark{background:none; padding:10px 4px;}
+  .seenon-press-logo:hover{opacity:1;}
+  .seenon-press-logo img{height:30px; width:auto; display:block;}
+  .seenon-press-logo img.logo-sm{height:18px;}
+  .seenon-press-logo img.logo-lg{height:36px;}
+  .seenon-press-logo img.logo-xl{height:46px;}
+  @media (prefers-reduced-motion: reduce){ .seenon-track{animation-duration:120s;} }
 
   /* SECTIONS */
   section.feature{margin:96px auto;}
@@ -242,9 +252,8 @@
     .hero-ctas{flex-wrap:wrap;}
     .seenon{padding:24px 24px 0;}
     .seenon-card{flex-direction:column; border-radius:32px; padding:32px 24px; text-align:center; min-height:0; gap:20px;}
-    .seenon-logos{justify-content:center; gap:12px;}
-    .seenon-press-logo{height:44px; padding:8px 14px;}
-    .seenon-press-logo img{max-width:100px;}
+    .seenon-logos{width:100%;}
+    .seenon-press-logo{padding-right:40px;}
     .wrap80{padding:0 24px;}
     section.feature{margin:64px auto;}
     .card-grid{grid-template-columns:1fr;}
@@ -304,15 +313,28 @@
   <div class="seenon-card">
     <div class="seenon-label">As Seen On</div>
     <div class="seenon-logos">
-      <a class="seenon-press-logo" href="https://www.thrillist.com/news/nation/pizzaforno-is-rolling-out-pizza-making-kiosks" target="_blank" rel="noopener"><img src="Images/Thrillist.webp" alt="Thrillist"></a>
-      <a class="seenon-press-logo" href="https://www.qsrmagazine.com/news/pizzaforno-sees-growth-spurt-in-first-half-of-2024/" target="_blank" rel="noopener"><img src="Images/QSR.svg" alt="QSR"></a>
-      <a class="seenon-press-logo" href="https://curiocity.com/pizzaforno-calgary/" target="_blank" rel="noopener"><img src="Images/curiosity.svg" alt="Curiosity"></a>
-      <a class="seenon-press-logo" href="https://www.ctvnews.ca/kitchener/article/pizza-vending-machine-at-university-of-guelph-goes-viral-thanks-to-pizza-cam/" target="_blank" rel="noopener"><img src="Images/CTV.png" alt="CTV News"></a>
-      <a class="seenon-press-logo" href="https://www.vendingtimes.com/news/pizza-vending-at-ontario-university-goes-viral/" target="_blank" rel="noopener"><img src="Images/vendingtimes.jpeg" alt="Vending Times"></a>
-      <a class="seenon-press-logo seenon-press-logo--dark" href="https://www.businesswire.com/news/home/20250731251164/en/PizzaForno-Heats-Up-West-Coast-Expansion-with-247-Pizza-Vending-Machines-at-Southern-California-College-Campuses" target="_blank" rel="noopener"><img src="Images/businesswire.png" alt="Business Wire"></a>
-      <a class="seenon-press-logo" href="https://retail-insider.com/retail-insider/2020/05/automated-pizza-oven-concept-pizzaforno-plans-to-open-thousands-of-locations/" target="_blank" rel="noopener"><img src="Images/retailinsider.png" alt="Retail Insider"></a>
-      <a class="seenon-press-logo" href="https://fox40.com/news/local-news/sacramento-county/pizzaforno-vending-machine-california/" target="_blank" rel="noopener"><img src="Images/fox40.webp" alt="Fox40"></a>
+      <div class="seenon-track">
+        <div class="seenon-set">
+          <a class="seenon-press-logo" href="https://www.thrillist.com/news/nation/pizzaforno-is-rolling-out-pizza-making-kiosks" target="_blank" rel="noopener"><img src="Images/press/thrillist.png" alt="Thrillist"></a>
+          <a class="seenon-press-logo" href="https://www.qsrmagazine.com/news/pizzaforno-sees-growth-spurt-in-first-half-of-2024/" target="_blank" rel="noopener"><img src="Images/press/qsr.svg" alt="QSR"></a>
+          <a class="seenon-press-logo" href="https://curiocity.com/pizzaforno-calgary/" target="_blank" rel="noopener"><img src="Images/press/curiocity.svg" alt="Curiocity" class="logo-sm"></a>
+          <a class="seenon-press-logo" href="https://www.ctvnews.ca/kitchener/article/pizza-vending-machine-at-university-of-guelph-goes-viral-thanks-to-pizza-cam/" target="_blank" rel="noopener"><img src="Images/press/ctv.png" alt="CTV News"></a>
+          <a class="seenon-press-logo" href="https://www.vendingtimes.com/news/pizza-vending-at-ontario-university-goes-viral/" target="_blank" rel="noopener"><img src="Images/press/vendingtimes.png" alt="Vending Times"></a>
+          <a class="seenon-press-logo" href="https://www.businesswire.com/news/home/20250731251164/en/PizzaForno-Heats-Up-West-Coast-Expansion-with-247-Pizza-Vending-Machines-at-Southern-California-College-Campuses" target="_blank" rel="noopener"><img src="Images/press/businesswire.png" alt="Business Wire" class="logo-lg"></a>
+          <a class="seenon-press-logo" href="https://retail-insider.com/retail-insider/2020/05/automated-pizza-oven-concept-pizzaforno-plans-to-open-thousands-of-locations/" target="_blank" rel="noopener"><img src="Images/press/retailinsider.png" alt="Retail Insider" class="logo-xl"></a>
+          <a class="seenon-press-logo" href="https://fox40.com/news/local-news/sacramento-county/pizzaforno-vending-machine-california/" target="_blank" rel="noopener"><img src="Images/press/fox40.png" alt="Fox40"></a>
+        </div>
+        <!-- Second copy of the set so the scroll loops seamlessly; filled in by the script below. -->
+        <div class="seenon-set" aria-hidden="true"></div>
+      </div>
     </div>
+    <script>
+      (function(){
+        var sets = document.querySelectorAll('.seenon-set');
+        sets[1].innerHTML = sets[0].innerHTML;
+        sets[1].querySelectorAll('a').forEach(function(a){ a.tabIndex = -1; });
+      })();
+    </script>
   </div>
 </section>
 

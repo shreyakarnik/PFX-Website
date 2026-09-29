@@ -95,6 +95,33 @@ form.tm-form{max-width:1016px; margin:0 auto;}
 }
 .tm-actions.tm-expanded .tm-add-more{display:none;}
 
+.tm-checkbox-grid{display:grid; grid-template-columns:1fr 1fr; gap:30px; margin:20px 0 8px;}
+.tm-checkbox-grid .tm-checkbox-row{align-items:center; gap:18px; margin:0; font-size:12.5px;}
+.tm-checkbox-row input[type="checkbox"]{
+  appearance:none; -webkit-appearance:none; flex-shrink:0; margin:0; cursor:pointer;
+  width:36px; height:26px; border-radius:6px;
+  background:rgba(255,255,255,0.3); border:1px solid rgba(255,255,255,0.15);
+  display:grid; place-content:center;
+}
+.tm-checkbox-row input[type="checkbox"]::after{
+  content:""; width:6px; height:11px; margin-top:-2px;
+  border-right:2px solid #fff; border-bottom:2px solid #fff; transform:rotate(45deg);
+  opacity:0;
+}
+.tm-checkbox-row input[type="checkbox"]:checked{background:var(--red, #C00022); border-color:var(--red, #C00022);}
+.tm-checkbox-row input[type="checkbox"]:checked::after{opacity:1;}
+.tm-checkbox-row input[type="checkbox"]:focus-visible{outline:2px solid var(--red, #C00022); outline-offset:2px;}
+
+/* OVERLAY LOOK: grey card; expanded, Submit spans the full width with Show Less centred below */
+.tm-overlay .tm-card{background:#58585A; border-color:rgba(255,255,255,0.08); padding:64px 140px 48px;}
+.tm-overlay .tm-badge{background:rgba(0,0,0,0.25); color:#fff; margin:0 auto 40px;}
+.tm-overlay .tm-head{margin-bottom:20px;}
+.tm-overlay .tm-note{color:#fff;}
+.tm-overlay .tm-consent{color:#fff; font-size:15px; margin-top:28px;}
+.tm-overlay .tm-submit{border-radius:20px;}
+.tm-overlay .tm-actions.tm-expanded{margin-top:28px;}
+.tm-overlay .tm-show-less{margin:28px auto 0;}
+
 .tm-show-less{
   display:none;
   background:none; border:none; padding:0; font-family:inherit;
@@ -102,8 +129,26 @@ form.tm-form{max-width:1016px; margin:0 auto;}
 }
 .tm-show-less.open{display:block;}
 
+/* INLINE VERSION (data-talk-inline): same card, sitting in the page flow */
+.tm-inline{padding:0 80px; margin:96px auto;}
+.tm-inline .tm-wrap{max-width:1280px;}
+.tm-inline .tm-card{padding:56px 140px 64px;}
+.tm-inline .tm-head{margin-bottom:24px;}
+.tm-inline .tm-badge{margin-bottom:40px;}
+.tm-inline .tm-submit{flex:0 0 calc(50% - 15px); border-radius:20px;}
+.tm-inline .tm-actions{gap:30px;}
+
+@media (max-width: 900px){
+  .tm-inline{padding:0 24px; margin:64px auto;}
+  .tm-inline .tm-card{padding:40px 32px;}
+}
+
 @media (max-width: 720px){
   .tm-overlay{padding:0;}
+  .tm-overlay .tm-card{padding:48px 20px 32px;}
+  .tm-checkbox-grid{grid-template-columns:1fr; gap:12px;}
+  .tm-inline .tm-card{border-radius:24px; padding:32px 20px; min-height:0;}
+  .tm-inline .tm-submit{flex:1;}
   .tm-card{border-radius:0; padding:32px 20px; min-height:100vh;}
   .tm-close{top:16px; right:16px;}
   .tm-head h2{font-size:26px;}

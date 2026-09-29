@@ -1,11 +1,14 @@
 /* ============================================================
-   "LET'S TALK!" LEAD-CAPTURE OVERLAY — shared component
+   "LET'S TALK!" LEAD-CAPTURE FORM — shared component
    ------------------------------------------------------------
-   Injects the overlay markup once per page, then wires up every
-   element carrying data-talk-trigger (nav "Let's Talk!" pill,
-   hero CTA, kiosk page CTAs, ...) to open it instead of
-   navigating to contact.html. The anchors keep their normal
-   href="contact.html" as a no-JS fallback.
+   The same form is used in two places:
+   1. An overlay injected once per page. Every element carrying
+      data-talk-trigger (nav "Let's Talk!" pill, hero CTA, kiosk
+      page CTAs, ...) opens it instead of navigating to
+      contact.html. The anchors keep their normal
+      href="contact.html" as a no-JS fallback.
+   2. Inline on the page, wherever an element carries
+      data-talk-inline (e.g. the home page, after "What's Included?").
 
    HUBSPOT SETUP: replace TALK_HUBSPOT_PORTAL_ID / TALK_HUBSPOT_FORM_GUID
    below with your real portal ID + form GUID (HubSpot > your form >
@@ -16,17 +19,10 @@
   var TALK_HUBSPOT_PORTAL_ID = "YOUR_PORTAL_ID";
   var TALK_HUBSPOT_FORM_GUID = "YOUR_FORM_GUID";
 
-  var MARKUP = ''
-    + '<div class="tm-overlay" id="talkOverlay" aria-hidden="true">'
-    + '  <div class="tm-wrap">'
-    + '    <div class="tm-card">'
-    + '      <button type="button" class="tm-close" id="talkClose" aria-label="Close">X</button>'
-    + '      <span class="tm-badge" id="talkBadge">1 min</span>'
-    + '      <div class="tm-head">'
-    + '        <h2>Ready to Explore Automation?</h2>'
-    + '        <p>Contact us for detailed specifications, site requirements, and pricing. The more details you provide, the better we can assist you.</p>'
-    + '      </div>'
-    + '      <form class="tm-form" id="talkForm">'
+  // `id` keeps the checkbox/label pairs unique when the form appears twice on a page.
+  function formMarkup(id){
+    return ''
+    + '      <form class="tm-form">'
     + '        <div class="tm-row">'
     + '          <div class="tm-group"><label>Email</label><input type="email" name="email" required></div>'
     + '          <div class="tm-group"><label>Last Name</label><input type="text" name="lastname" required></div>'
@@ -48,7 +44,7 @@
     + '          </div>'
     + '        </div>'
     + '        <p class="tm-note">Contact us for detailed specifications, site requirements, and pricing. The more details you provide, the better we can assist you.</p>'
-    + '        <div class="tm-extra" id="talkExtra">'
+    + '        <div class="tm-extra">'
     + '          <div class="tm-row">'
     + '            <div class="tm-group"><label>Company Name</label><input type="text" name="company"></div>'
     + '            <div class="tm-group"><label>Role</label><input type="text" name="role"></div>'
@@ -81,70 +77,75 @@
     + '            <div class="tm-group"><label>Additional Information (Optional) <span class="hint">Let us know if there is any additional information you\'d like to share!</span></label><textarea name="additional_info"></textarea></div>'
     + '          </div>'
     + '          <p class="tm-consent">By checking the boxes below, you consent to receive periodic email or SMS communications from PizzaForno and allow our team to reach out and provide information about our licensing opportunity. You may opt out at any time.</p>'
-    + '          <div class="tm-checkbox-row"><input type="checkbox" id="talkConsentEmail" name="consent_email"><label for="talkConsentEmail">I agree to receive email communications</label></div>'
-    + '          <div class="tm-checkbox-row"><input type="checkbox" id="talkConsentSms" name="consent_sms"><label for="talkConsentSms">I agree to receive SMS communications</label></div>'
+    + '          <div class="tm-checkbox-grid">'
+    + '          <div class="tm-checkbox-row"><input type="checkbox" id="' + id + 'ConsentEmail" name="consent_email"><label for="' + id + 'ConsentEmail">I agree to receive email communications</label></div>'
+    + '          <div class="tm-checkbox-row"><input type="checkbox" id="' + id + 'ConsentSms" name="consent_sms"><label for="' + id + 'ConsentSms">I agree to receive SMS communications</label></div>'
+    + '          </div>'
     + '        </div>'
-    + '        <div class="tm-actions" id="talkActions">'
-    + '          <button type="submit" class="tm-submit" id="talkSubmitBtn">Submit Inquiry</button>'
-    + '          <button type="button" class="tm-add-more" id="talkAddMore">Add More Information +</button>'
+    + '        <div class="tm-actions">'
+    + '          <button type="submit" class="tm-submit">Submit Inquiry</button>'
+    + '          <button type="button" class="tm-add-more">Add More Information +</button>'
     + '        </div>'
-    + '      </form>'
+    + '      </form>';
+  }
+
+  var HEAD = ''
+    + '      <div class="tm-head">'
+    + '        <h2>Ready to Explore Automation?</h2>'
+    + '        <p>Contact us for detailed specifications, site requirements, and pricing. The more details you provide, the better we can assist you.</p>'
+    + '      </div>';
+  var BADGE = '      <span class="tm-badge">1 min</span>';
+  var SHOW_LESS = '    <button type="button" class="tm-show-less">Show Less</button>';
+
+  var OVERLAY_MARKUP = ''
+    + '<div class="tm-overlay" id="talkOverlay" aria-hidden="true">'
+    + '  <div class="tm-wrap">'
+    + '    <div class="tm-card">'
+    + '      <button type="button" class="tm-close" id="talkClose" aria-label="Close">X</button>'
+    + HEAD + BADGE + formMarkup('talk')
+    + SHOW_LESS
     + '    </div>'
-    + '    <button type="button" class="tm-show-less" id="talkShowLess">Show Less</button>'
     + '  </div>'
     + '</div>';
 
-  function init(){
-    document.body.insertAdjacentHTML('beforeend', MARKUP);
+  var INLINE_MARKUP = ''
+    + '  <div class="tm-wrap">'
+    + '    <div class="tm-card">'
+    + HEAD + BADGE + formMarkup('talkInline')
+    + '    </div>'
+    + '  </div>';
 
-    var overlay   = document.getElementById('talkOverlay');
-    var card      = overlay.querySelector('.tm-card');
-    var closeBtn  = document.getElementById('talkClose');
-    var badge     = document.getElementById('talkBadge');
-    var extra     = document.getElementById('talkExtra');
-    var actions   = document.getElementById('talkActions');
-    var addMore   = document.getElementById('talkAddMore');
-    var showLess  = document.getElementById('talkShowLess');
-    var form      = document.getElementById('talkForm');
-    var submitBtn = document.getElementById('talkSubmitBtn');
+  // Wires up the two-stage expand/collapse and HubSpot submit for one form instance.
+  // opts.onSuccess runs after a successful submit (e.g. to close the overlay).
+  // opts.onAddMore replaces the in-place expand (the inline form opens the overlay instead).
+  // opts.onShowLess runs instead of collapsing, when set and returning true.
+  function wireForm(root, opts){
+    opts = opts || {};
+    var badge     = root.querySelector('.tm-badge');
+    var extra     = root.querySelector('.tm-extra');
+    var actions   = root.querySelector('.tm-actions');
+    var addMore   = root.querySelector('.tm-add-more');
+    var showLess  = root.querySelector('.tm-show-less');
+    var form      = root.querySelector('.tm-form');
+    var submitBtn = root.querySelector('.tm-submit');
 
-    function openModal(e){
-      if(e) e.preventDefault();
-      overlay.classList.add('open');
-      overlay.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('tm-locked');
-    }
-    function closeModal(){
-      overlay.classList.remove('open');
-      overlay.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('tm-locked');
-    }
     function expand(){
       extra.classList.add('open');
       actions.classList.add('tm-expanded');
-      showLess.classList.add('open');
+      if(showLess) showLess.classList.add('open');
       badge.textContent = '3 mins';
     }
     function collapse(){
       extra.classList.remove('open');
       actions.classList.remove('tm-expanded');
-      showLess.classList.remove('open');
+      if(showLess) showLess.classList.remove('open');
       badge.textContent = '1 min';
     }
 
-    document.querySelectorAll('[data-talk-trigger]').forEach(function(el){
-      el.addEventListener('click', openModal);
+    addMore.addEventListener('click', opts.onAddMore || expand);
+    if(showLess) showLess.addEventListener('click', function(){
+      if(!(opts.onShowLess && opts.onShowLess())) collapse();
     });
-
-    closeBtn.addEventListener('click', closeModal);
-    overlay.addEventListener('click', function(e){
-      if(e.target === overlay) closeModal();
-    });
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
-    });
-    addMore.addEventListener('click', expand);
-    showLess.addEventListener('click', collapse);
 
     form.addEventListener('submit', function(event){
       event.preventDefault();
@@ -199,7 +200,7 @@
           alert("Thanks! Your inquiry has been submitted.");
           form.reset();
           collapse();
-          closeModal();
+          if(opts.onSuccess) opts.onSuccess();
         } else {
           alert("Something went wrong submitting the form. Please try again.");
         }
@@ -208,6 +209,85 @@
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Inquiry';
         alert("Something went wrong submitting the form. Please try again.");
+      });
+    });
+
+    return { form: form, expand: expand, collapse: collapse };
+  }
+
+  // Copies every same-named field value from one form to another.
+  function copyValues(from, to){
+    Array.prototype.forEach.call(from.elements, function(el){
+      if(!el.name || !to.elements[el.name]) return;
+      var target = to.elements[el.name];
+      if(el.type === 'checkbox') target.checked = el.checked;
+      else target.value = el.value;
+    });
+  }
+
+  function init(){
+    document.body.insertAdjacentHTML('beforeend', OVERLAY_MARKUP);
+
+    var overlay  = document.getElementById('talkOverlay');
+    var closeBtn = document.getElementById('talkClose');
+
+    // The inline form that opened the overlay via "Add More Information", if any.
+    var openedFrom = null;
+
+    function openModal(e){
+      if(e) e.preventDefault();
+      openedFrom = null;
+      show();
+    }
+    function show(){
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('tm-locked');
+    }
+    function closeModal(){
+      // Carry anything typed in the overlay back to the inline form it came from.
+      if(openedFrom){ copyValues(modal.form, openedFrom.form); modal.collapse(); openedFrom = null; }
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('tm-locked');
+    }
+
+    document.querySelectorAll('[data-talk-trigger]').forEach(function(el){
+      el.addEventListener('click', openModal);
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function(e){
+      if(e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    });
+    var modal = wireForm(overlay, {
+      onSuccess: function(){
+        if(openedFrom){ openedFrom.form.reset(); openedFrom = null; }
+        closeModal();
+      },
+      // Opened from an inline form: "Show Less" returns to that form.
+      onShowLess: function(){
+        if(!openedFrom) return false;
+        closeModal();
+        return true;
+      }
+    });
+
+    document.querySelectorAll('[data-talk-inline]').forEach(function(el){
+      el.classList.add('tm-inline');
+      el.innerHTML = INLINE_MARKUP;
+      var inline = wireForm(el, {
+        // Open the full overlay, already expanded, with what's been typed so far.
+        onAddMore: function(){
+          modal.form.reset();
+          copyValues(inline.form, modal.form);
+          modal.expand();
+          openedFrom = inline;
+          show();
+        }
       });
     });
   }

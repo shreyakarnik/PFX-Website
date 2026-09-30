@@ -110,8 +110,10 @@
   .k-hero-image img{width:100%; height:100%; object-fit:cover; display:block;}
 
   .cert-bar{max-width:1440px; margin:56px auto 0; padding:0 80px;}
-  .cert-bar-inner{border:1px solid rgba(255,255,255,0.14); border-radius:50px; padding:22px 40px; display:flex; align-items:center; justify-content:center; gap:18px; font-size:15px; color:rgba(255,255,255,0.85); flex-wrap:wrap;}
-  .cert-bar-inner img{height:26px; object-fit:contain;}
+  /* Same type spec as the section eyebrows ("Your Brand. Your Business") */
+  .cert-eyebrow{text-align:center; margin-bottom:12px; font-size:14px; font-weight:400; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.6);}
+  .cert-bar-inner{border:1px solid rgba(255,255,255,0.14); border-radius:50px; padding:22px 40px; display:flex; align-items:center; justify-content:center; gap:56px; font-size:15px; color:rgba(255,255,255,0.85); flex-wrap:wrap;}
+  .cert-bar-inner img{height:78px; object-fit:contain;}
 
   .build-section{padding:88px 80px 0; text-align:center;}
   .build-section h2{font-size:32px; font-weight:600; margin-bottom:10px; color:var(--white);}
@@ -150,7 +152,8 @@
     .features-grid{grid-template-columns:1fr 1fr;}
     .deploy-gallery{grid-template-columns:1fr; }
     .deploy-gallery .g-item, .deploy-gallery .g-item.tall{min-height:220px;}
-    .cert-bar-inner{padding:18px 20px; font-size:13px;}
+    .cert-bar-inner{padding:18px 20px; font-size:13px; gap:32px;}
+    .cert-bar-inner img{height:60px;}
   }
 
   @media (max-width: 900px){
@@ -213,11 +216,10 @@
 </section>
 
 <div class="cert-bar">
+  <h2 class="cert-eyebrow">Industry-Leading Standards</h2>
   <div class="cert-bar-inner">
-    <span>The Indoor Kiosk is both</span>
     <img src="ul-certified.png" alt="UL Certified" onerror="this.style.display='none'">
     <img src="nama-logo.png" alt="NAMA" onerror="this.style.display='none'">
-    <span>approved.</span>
   </div>
 </div>
 

@@ -74,10 +74,28 @@
   .nav-logo-btn img{width:30px; height:30px; display:block; object-fit:contain;}
 
   /* HERO — text-only, left aligned inside the narrow 1062 zone (189px total inset) */
+  /* Red glow behind the top of the landing page (hero + "As Seen On").
+     Two soft red light sources, a fine film grain, and a fade into the
+     normal page background at the bottom. */
+  .page-glow{
+    position:absolute; top:0; left:0; right:0; height:1150px;
+    z-index:-1; pointer-events:none; overflow:hidden;
+    background:
+      radial-gradient(ellipse 38% 42% at 0% 0%, rgba(150,8,28,0.85) 0%, rgba(150,8,28,0.35) 45%, rgba(150,8,28,0) 75%),
+      radial-gradient(ellipse 55% 72% at 100% 55%, rgba(175,6,30,0.95) 0%, rgba(140,6,26,0.45) 45%, rgba(120,6,24,0) 78%),
+      radial-gradient(ellipse 30% 40% at 72% 30%, rgba(90,4,18,0.35) 0%, rgba(90,4,18,0) 70%),
+      var(--bg);
+    -webkit-mask-image:linear-gradient(to bottom, #000 70%, transparent 100%);
+            mask-image:linear-gradient(to bottom, #000 70%, transparent 100%);
+  }
+  .page-glow::after{
+    content:""; position:absolute; inset:0; opacity:0.18; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
   .hero{
     position:relative;
     width:100%; overflow:hidden;
-    background:var(--bg);
+    background:transparent;
     padding:160px 80px 130px;
   }
   .hero-particles{position:absolute; inset:0; z-index:0; pointer-events:none; display:block;}
@@ -273,6 +291,7 @@
 </style>
 </head>
 <body>
+<div class="page-glow" aria-hidden="true"></div>
 
 <header class="nav">
   <a href="index.html" class="logo" aria-label="PFX home"><img src="Images/pfx-logo-white.png" alt="PFX"></a>
